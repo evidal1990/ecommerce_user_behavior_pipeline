@@ -24,25 +24,40 @@ class DataFrameValidatorExecutor:
 
     def execute(self, df: pl.DataFrame) -> None:
         logging.info("Validação da estrutura do dataframe iniciada")
-        self.contract = file_io.read_yaml(
-            BASE_DIR / "src" / "validation" / "quality" / "schema.yaml"
-        )
-        DataFrameValidator(
-            RuleType.DATAFRAME_STRUCTURE,
-            [
-                RequiredColumns(column=column, contract=self.contract)
-                for column in DF_COLUMNS
-            ],
-        ).execute(df)
-        DtypeValidator(
-            RuleType.DATAFRAME_STRUCTURE,
-            [
-                ColumnDType(column=column, contract=self.contract)
-                for column in DF_COLUMNS
-            ],
-        ).execute(df)
-        RulesValidator(
-            RuleType.DATAFRAME_STRUCTURE,
-            [NotAllowedNullCount(column=column) for column in DF_COLUMNS],
-        ).execute(df)
+        contract = self._set_contract()
+        for column in DF_COLUMNS:
+            DataFrameValidator(
+                RuleType.DATAFRAME_STRUCTURE,
+                [
+                    RequiredColumns(
+                        column=column,
+                        contract=contract,
+                    )
+                ],
+            ).execute(df)
+            DtypeValidator(
+                RuleType.DATAFRAME_STRUCTURE,
+                [
+                    ColumnDType(
+                        column=column,
+                        contract=contract,
+                    )
+                ],
+            ).execute(df)
+            RulesValidator(
+                RuleType.DATAFRAME_STRUCTURE,
+                [
+                    NotAllowedNullCount(
+                        column=column,
+                    )
+                ],
+            ).execute(df)
         logging.info("Validação da estrutura do dataframe finalizada\n")
+
+    def _set_contract(self) -> dict:
+        path = BASE_DIR.joinpath("src", "validation", "quality", "schema.yaml")
+        try:
+            return file_io.read_yaml(path)
+        except FileNotFoundError:
+            logging.error(f"Schema não encontrado em {path}")
+            raise

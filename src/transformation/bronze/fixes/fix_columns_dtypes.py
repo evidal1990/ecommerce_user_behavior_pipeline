@@ -13,7 +13,7 @@ class FixColumnsDTypes(DataStructuringInterface):
         self._contract = contract
 
     def name(self) -> str:
-        return "fix_columns_dtype"
+        return "FIX_COLUMNS_DTYPE"
 
     def execute(self, df: pl.DataFrame) -> pl.DataFrame:
         for column_name, rules in self._contract["columns"].items():

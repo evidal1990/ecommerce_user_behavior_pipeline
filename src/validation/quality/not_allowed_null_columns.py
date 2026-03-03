@@ -10,7 +10,7 @@ class NotAllowedNullCount(Rule):
         self.sample_size = sample_size
 
     def name(self) -> str:
-        return f"not_allowed_null_count_{self.column}"
+        return f"{self.column}_NOT_NULL_RULE"
 
     def validate(self, df: pl.DataFrame) -> dict:
         total_records = df.shape[0]

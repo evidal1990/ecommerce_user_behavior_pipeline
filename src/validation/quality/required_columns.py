@@ -9,7 +9,7 @@ class RequiredColumns(Rule):
         self._contract = contract
 
     def name(self) -> str:
-        return f"required_columns"
+        return f"{self.column}_REQUIRED_COLUMN_RULE"
 
     def validate(self, df: pl.DataFrame) -> dict:
         required = self._contract["columns"][self.column].get("required", False)

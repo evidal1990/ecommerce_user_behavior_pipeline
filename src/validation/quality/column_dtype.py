@@ -13,7 +13,7 @@ class ColumnDType(Rule):
         self._contract = contract
 
     def name(self) -> str:
-        return f"dtype_column_{self.column}"
+        return f"{self.column}_DTYPE_RULE"
 
     def validate(self, df: pl.DataFrame) -> dict:
         dtype = self._contract["columns"][self.column].get("dtype", False)

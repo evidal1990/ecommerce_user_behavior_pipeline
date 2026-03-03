@@ -9,7 +9,7 @@ class RenameColumns(DataStructuringInterface):
         self._contract = contract
 
     def name(self) -> str:
-        return "rename_columns"
+        return "RENAME_COLUMNS"
 
     def execute(self, df: pl.DataFrame) -> pl.DataFrame:
         rename_map = {}

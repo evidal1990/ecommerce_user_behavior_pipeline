@@ -15,17 +15,30 @@ class DataStructuringExecutor:
 
     def execute(self, df: pl.DataFrame) -> None:
         logging.info("Validação semântica do dataframe iniciada")
-        self.contract = file_io.read_yaml(
-            BASE_DIR / "src" / "validation" / "quality" / "schema.yaml"
-        )
-        self.df = DataStructuring(
+        contract = self._set_contract()
+        df_structured = DataStructuring(
             df,
             [
-                FixColumnsDTypes(contract=self.contract),
-                RenameColumns(contract=self.contract),
+                FixColumnsDTypes(
+                    contract=contract,
+                ),
+                RenameColumns(
+                    contract=contract,
+                ),
             ],
         ).execute()
+        self._write_bronze(df_structured)
+        logging.info("Validação semântica do dataframe finalizada\n")
+
+    def _set_contract(self) -> dict:
+        path = BASE_DIR.joinpath("src", "validation", "quality", "schema.yaml")
+        try:
+            return file_io.read_yaml(path)
+        except FileNotFoundError:
+            logging.error(f"Schema não encontrado em {path}")
+            raise
+
+    def _write_bronze(self, df) -> None:
         path = self._settings["data"]["bronze"]["destination"]
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        self.df.write_csv(path)
-        logging.info("Validação semântica do dataframe finalizada\n")
+        df.write_csv(path)
