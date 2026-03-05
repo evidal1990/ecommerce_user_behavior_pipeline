@@ -19,30 +19,21 @@ class BusinessRulesExecutor:
         logging.info("Validação de regras de negócio iniciada")
 
         contract = self._get_contract()
-        contract_columns = contract["columns"]
-
         rules = []
 
-        for key, value in contract_columns.items():
-            if {"min", "max"}.issubset(value):
+        for column, config in contract["columns"].items():
+            if "min" in config and "max" in config:
                 rules.append(
                     AllowedMinMaxValues(
-                        column=key,
-                        min=value["min"],
-                        max=value["max"],
+                        column=column, min=config["min"], max=config["max"]
                     )
                 )
-
-            if {"values"}.issubset(value):
+            if "values" in config:
                 rules.append(
-                    AllowedColumnValues(
-                        column=key,
-                        values=value["values"],
-                    )
+                    AllowedColumnValues(column=column, values=config["values"])
                 )
 
         RulesValidator(RuleType.BUSINESS, rules).execute(df)
-
         logging.info("Validação de regras de negócio finalizada\n")
 
     def _get_contract(self) -> dict:

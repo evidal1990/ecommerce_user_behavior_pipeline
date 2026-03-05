@@ -1,5 +1,4 @@
 import polars as pl
-from consts.validation_status import ValidationStatus
 from src.validation.interfaces.semantic_rule import SemanticRule
 
 
@@ -16,7 +15,3 @@ class DuplicatedUserId(SemanticRule):
 
     def invalid_df(self, df: pl.DataFrame) -> pl.DataFrame:
         return df.filter(pl.col("user_id").is_duplicated()).select("user_id").unique()
-
-    def decide_status(self) -> ValidationStatus:
-        condition_has_passed = self._invalid_records == 0
-        return ValidationStatus.PASS if condition_has_passed else ValidationStatus.FAIL

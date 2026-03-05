@@ -1,5 +1,4 @@
 import polars as pl
-from consts.validation_status import ValidationStatus
 from consts.employment_status import EmploymentStatus
 from src.validation.interfaces.semantic_rule import SemanticRule
 
@@ -42,7 +41,3 @@ class IncomePerEmploymentStatus(SemanticRule):
                 "employment_status",
             ]
         )
-
-    def decide_status(self) -> ValidationStatus:
-        condition_has_passed = self._invalid_records == 0
-        return ValidationStatus.PASS if condition_has_passed else ValidationStatus.WARN

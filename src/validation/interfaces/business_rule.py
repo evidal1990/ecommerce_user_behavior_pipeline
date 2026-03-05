@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from consts.validation_status import ValidationStatus
 
 
-class SemanticRule(ABC):
+class BusinessRule(ABC):
 
     def __init__(self, sample_size: int) -> None:
         self.sample_size = sample_size
