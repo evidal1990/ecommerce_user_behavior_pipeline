@@ -1,10 +1,13 @@
 import logging
-from src.validation.interfaces.rule import Rule
+from src.validation.interfaces.semantic_rule import SemanticRule
+from src.validation.interfaces.business_rule import BusinessRule
 from consts.validation_status import ValidationStatus
 
 
-class RulesValidator():
-    def __init__(self, rule_type: str, rules: list[Rule]) -> None:
+class RulesValidator:
+    def __init__(
+        self, rule_type: str, rules: list[SemanticRule | BusinessRule]
+    ) -> None:
         self.rule_type = rule_type
         self.rules = rules
 

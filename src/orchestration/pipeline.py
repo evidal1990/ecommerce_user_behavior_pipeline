@@ -56,14 +56,3 @@ class Pipeline:
             df=df_after_transformation_bronze,
         )
         logging.info("Pipeline finalizada")
-
-        # logging.info("Validação de regras de negócio iniciada...")
-        # RulesValidator(
-        #     RuleType.BUSINESS,
-        #     [AllowedMinMaxValues(column=col) for col in RANGE_COLUMNS],
-        # ).execute(df)
-        # RulesValidator(
-        #     RuleType.BUSINESS,
-        #     [AllowedColumnValues(column=col) for col in LIST_OPTIONS_COLUMNS],
-        # ).execute(df)
-        # logging.info("Validação de regras de negócio finalizada...\n")

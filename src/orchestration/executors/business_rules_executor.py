@@ -6,6 +6,7 @@ from src.utils import file_io
 from src.validation import RulesValidator
 from src.validation.business.allowed_min_max_values import AllowedMinMaxValues
 from src.validation.business.allowed_column_values import AllowedColumnValues
+from src.validation.quality.not_allowed_null_columns import NotAllowedNullCount
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]
@@ -22,6 +23,12 @@ class BusinessRulesExecutor:
         rules = []
 
         for column, config in contract["columns"].items():
+            if "not_null" in config and config["not_null"]:
+                rules.append(
+                    NotAllowedNullCount(
+                        column=column,
+                    )
+                )
             if "min" in config and "max" in config:
                 rules.append(
                     AllowedMinMaxValues(

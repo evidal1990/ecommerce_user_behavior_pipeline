@@ -29,27 +29,8 @@ class DataFrameValidatorExecutor:
             DataFrameValidator(
                 RuleType.DATAFRAME_STRUCTURE,
                 [
-                    RequiredColumns(
-                        column=column,
-                        contract=contract,
-                    )
-                ],
-            ).execute(df)
-            DtypeValidator(
-                RuleType.DATAFRAME_STRUCTURE,
-                [
-                    ColumnDType(
-                        column=column,
-                        contract=contract,
-                    )
-                ],
-            ).execute(df)
-            RulesValidator(
-                RuleType.DATAFRAME_STRUCTURE,
-                [
-                    NotAllowedNullCount(
-                        column=column,
-                    )
+                    RequiredColumns(column=column, contract=contract),
+                    ColumnDType(column=column, contract=contract),
                 ],
             ).execute(df)
         logging.info("Validação da estrutura do dataframe finalizada\n")
