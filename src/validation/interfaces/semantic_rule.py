@@ -46,9 +46,9 @@ class SemanticRule(ABC):
     def decide_status(self) -> ValidationStatus:
         if self._invalid_records == 0:
             return ValidationStatus.PASS
-        if self._invalid_percentage < 0.1:
+        if self._invalid_percentage < 10.0:
             return ValidationStatus.WARN
-        elif self._invalid_percentage < 0.5:
+        elif self._invalid_percentage < 40.0:
             return ValidationStatus.FAIL
         else:
             return ValidationStatus.CRITICAL
