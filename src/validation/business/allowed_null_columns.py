@@ -2,7 +2,7 @@ import polars as pl
 from src.validation.interfaces.business_rule import BusinessRule
 
 
-class NotAllowedNullCount(BusinessRule):
+class AllowedNullCount(BusinessRule):
     def __init__(self, column: str, sample_size: int = 5) -> None:
         self.column = column
         self.sample_size = sample_size
