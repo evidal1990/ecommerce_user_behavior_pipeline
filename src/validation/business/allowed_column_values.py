@@ -1,6 +1,6 @@
 import polars as pl
 from pathlib import Path
-from src.validation.interfaces.business_rule import BusinessRule
+from src.validation.rules.business_rule import BusinessRule
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]

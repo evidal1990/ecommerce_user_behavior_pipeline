@@ -1,6 +1,6 @@
 import polars as pl
 from consts.employment_status import EmploymentStatus
-from src.validation.interfaces.semantic_rule import SemanticRule
+from src.validation.rules.semantic_rule import SemanticRule
 
 
 class IncomePerEmploymentStatus(SemanticRule):

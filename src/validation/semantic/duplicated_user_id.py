@@ -1,5 +1,5 @@
 import polars as pl
-from src.validation.interfaces.semantic_rule import SemanticRule
+from src.validation.rules.semantic_rule import SemanticRule
 
 
 class DuplicatedUserId(SemanticRule):

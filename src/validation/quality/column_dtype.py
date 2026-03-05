@@ -1,5 +1,5 @@
 import polars as pl
-from src.validation.interfaces.rule import Rule
+from src.validation.rules.rule import Rule
 from consts.validation_status import ValidationStatus
 from consts.dtypes import DTypes
 

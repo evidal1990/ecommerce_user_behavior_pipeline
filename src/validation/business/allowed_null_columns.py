@@ -1,5 +1,5 @@
 import polars as pl
-from src.validation.interfaces.business_rule import BusinessRule
+from src.validation.rules.business_rule import BusinessRule
 
 
 class AllowedNullCount(BusinessRule):

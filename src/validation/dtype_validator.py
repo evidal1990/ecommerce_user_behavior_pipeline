@@ -1,5 +1,5 @@
 import logging
-from src.validation.interfaces.column import Column
+from src.validation.rules.column import Column
 from consts.validation_status import ValidationStatus
 
 
