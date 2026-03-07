@@ -4,6 +4,7 @@ from .executors.dataframe_validation_executor import DataFrameValidatorExecutor
 from .executors.transformation_bronze_executor import TransformationBronzeExecutor
 from .executors.semantic_rules_executor import SemanticRulesExecutor
 from .executors.business_rules_executor import BusinessRulesExecutor
+from .executors.transformation_silver_executor import TransformationSilverExecutor
 
 
 class Pipeline:
@@ -52,7 +53,12 @@ class Pipeline:
         SemanticRulesExecutor().start(
             df=df_after_transformation_bronze,
         )
-        BusinessRulesExecutor().start(
+        TransformationSilverExecutor(
+            settings=self.settings,
+        ).start(
             df=df_after_transformation_bronze,
         )
+        # BusinessRulesExecutor().start(
+        #     df=df_after_transformation_bronze,
+        # )
         logging.info("Pipeline finalizada")
