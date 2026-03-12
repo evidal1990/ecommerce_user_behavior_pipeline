@@ -11,10 +11,10 @@ class TransformationSilverExecutor:
 
         self._settings = data["silver"]
 
-    def start(self, df:pl.DataFrame) -> pl.DataFrame:
+    def start(self, df: pl.DataFrame) -> pl.DataFrame:
         logging.info("Transformação da camada bronze iniciada")
 
-        df = EnrichDataFrame().execute(df=df)
+        df = EnrichDataFrame(settings=self._settings).execute(df=df)
         self._write_silver(df=df)
         logging.info("Transformação da camada bronze finalizada\n")
         return df

@@ -6,6 +6,7 @@ data:
     origin: "data/raw/data.csv"
     destination: "data/bronze/data.csv"
   silver:
+    parent: "data/silver/"
     origin: "data/bronze/data.csv"
     destination: "data/silver/data.csv"
   gold:
