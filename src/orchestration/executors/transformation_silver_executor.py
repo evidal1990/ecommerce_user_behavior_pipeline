@@ -1,6 +1,7 @@
 import logging
 import polars as pl
 from src.transformation.silver.enrich.enrich_dataframe import EnrichDataFrame
+from src.transformation.silver.clean.clean import CleanData
 
 
 class TransformationSilverExecutor:
@@ -12,11 +13,12 @@ class TransformationSilverExecutor:
         self._settings = data["silver"]
 
     def start(self, df: pl.DataFrame) -> pl.DataFrame:
-        logging.info("Transformação da camada bronze iniciada")
+        logging.info("Transformação de dados provenientes da camada bronze iniciada")
 
+        df = CleanData().execute(df=df)
         df = EnrichDataFrame(settings=self._settings).execute(df=df)
         self._write_silver(df=df)
-        logging.info("Transformação da camada bronze finalizada\n")
+        logging.info("Transformação de dados provenientes da camada bronze finalizada\n")
         return df
 
     def _write_silver(self, df) -> None:
