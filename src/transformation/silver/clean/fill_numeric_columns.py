@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 import polars as pl
 
@@ -12,6 +13,34 @@ class FillNumericColumns:
         df: pl.DataFrame,
     ) -> pl.DataFrame:
 
+        df = self._fill(df=df)
+
+        logging.info(
+            (
+                f"DATA_CLEANING_FIX_NUMERIC_REGISTRIES\n"
+                f"Registros: {df.height}\n"
+                f"Registros NaN: {self._invalid_registries(df=df)}\n"
+            )
+        )
+
+        return df
+
+    def _invalid_registries(
+        self,
+        df: pl.DataFrame,
+    ) -> pl.DataFrame:
+        return (
+            df.select(
+                (pl.col(pl.Float64).is_null() | pl.col(pl.Float64).is_nan()).sum()
+            )
+            .unpivot(variable_name="coluna", value_name="invalidos")
+            .filter(pl.col("invalidos") > 0)
+        )
+
+    def _fill(
+        self,
+        df: pl.DataFrame,
+    ) -> pl.DataFrame:
         strategies = {
             pl.Float64: lambda column: (
                 pl.when(pl.col(column) < 0)
