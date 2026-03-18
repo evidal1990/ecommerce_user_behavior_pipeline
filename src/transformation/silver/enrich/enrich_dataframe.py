@@ -25,10 +25,11 @@ class EnrichDataFrame:
 
     def _is_future_date(self, df) -> pl.DataFrame:
         columns = self.contract["is_future_date"]["columns"]
-        df = CreateIsFutureDateColumn(
-            df=df,
-            settings=self.settings["parent"],
-        ).execute(columns=columns)
+        for col in columns:
+            df = CreateIsFutureDateColumn(
+                df=df,
+                settings=self.settings["parent"],
+            ).execute(column=col)
         return df
 
     def _load_contract(self) -> dict:

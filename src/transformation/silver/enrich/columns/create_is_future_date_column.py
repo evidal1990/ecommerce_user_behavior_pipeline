@@ -15,26 +15,25 @@ class CreateIsFutureDateColumn:
     def _sufix(self) -> str:
         return "is_future"
 
-    def execute(self, columns: list[str]) -> pl.DataFrame:
-        for col in columns:
-            new_col = f"{col}_{self._sufix()}"
-            df = self._create(
-                column=col,
-                new_column=new_col,
-            )
-            self._save_file(
-                df=df,
-                column=col,
-            )
-            true_records, false_records = self._get_records(
-                df=df,
-                column=new_col,
-            )
-            self._log(
-                column=new_col,
-                true_records=true_records,
-                false_records=false_records,
-            )
+    def execute(self, column: list[str]) -> pl.DataFrame:
+        new_col = f"{column}_{self._sufix()}"
+        df = self._create(
+            column=column,
+            new_column=new_col,
+        )
+        self._save_file(
+            df=df,
+            column=column,
+        )
+        true_records, false_records = self._get_records(
+            df=df,
+            column=new_col,
+        )
+        self._log(
+            column=new_col,
+            true_records=true_records,
+            false_records=false_records,
+        )
         return df
 
     def _create(

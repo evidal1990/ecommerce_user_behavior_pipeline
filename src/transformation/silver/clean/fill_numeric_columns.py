@@ -12,14 +12,15 @@ class FillNumericColumns:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-
-        df = self._fill(df=df)
-
+        df_cleaned = self._fill(df=df)
         logging.info(
             (
                 f"DATA_CLEANING_FIX_NUMERIC_REGISTRIES\n"
-                f"Registros: {df.height}\n"
-                f"Registros NaN: {self._invalid_registries(df=df)}\n"
+                f"Registros: {df_cleaned.height}\n"
+                f"Registros inválidos antes da limpeza:\n"
+                f"{self._invalid_registries(df=df)}\n"
+                f"Registros inválidos depois da limpeza:\n"
+                f"{self._invalid_registries(df=df_cleaned)}\n"
             )
         )
 
