@@ -1,9 +1,23 @@
 import polars as pl
 
+from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 
-class MinMaxStrategy:
-    def __init__(self) -> None:
-        pass
 
-    def execute(self, df: pl.DataFrame) -> pl.DataFrame:
-        return df
+class MinMaxScaling(EnrichStructure):
+    def __init__(self, column: str) -> None:
+        self._column = column
+
+    def name(self) -> str:
+        return "MIN_MAX"
+
+    def scaled_column(self) -> str:
+        return f"{self._column}_scaled"
+
+    def execute(
+        self,
+        df: pl.DataFrame,
+    ) -> pl.DataFrame:
+        min = df.select(pl.col(self._column).min()).item()
+        max = df.select(pl.col(self._column).max()).item()
+        scaled = (pl.col(self._column) - min) / (max - min)
+        return df.with_columns(scaled.alias(f"{self._column}_scaled"))

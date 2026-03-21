@@ -10,6 +10,7 @@ from src.transformation.silver.clean.fill_columns import FillColumns
 from src.transformation.silver.enrich.columns.create_is_future_date_column import (
     CreateIsFutureDateColumn,
 )
+from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
 BASE_DIR = Path(__file__).resolve().parents[3]
@@ -27,9 +28,6 @@ class TransformationSilverExecutor:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        contract = self._load_contract()["actions"]["enrich"]
-        columns = contract["is_future_date"]["columns"]
-
         logging.info("Transformação de dados provenientes da camada bronze iniciada")
         df = self._clean(df=df)
         df = self._normalize(df=df)
@@ -53,20 +51,21 @@ class TransformationSilverExecutor:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return Normalize().execute(df=df)
+        contract = self._load_contract()
+        columns = contract["actions"]["normalize"]["columns"]
+        min_max = [MinMaxScaling(column=col) for col in columns]
+        return Normalize(min_max).execute(df=df)
 
     def _enrich(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return EnrichData(
-            [
-                CreateIsFutureDateColumn(
-                    settings=self._settings["parent"],
-                    column="last_purchase_date",
-                )
-            ],
-        ).execute(df=df)
+        parent = self._settings["parent"]
+        is_future = CreateIsFutureDateColumn(
+            settings=parent,
+            column="last_purchase_date",
+        )
+        return EnrichData([is_future]).execute(df=df)
 
     def _write_silver(
         self,

@@ -1,0 +1,16 @@
+from abc import ABC, abstractmethod
+
+
+class NormalizeStructure(ABC):
+
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
+    @abstractmethod
+    def column(self) -> str:
+        pass
+
+    @abstractmethod
+    def execute(self, df) -> dict:
+        pass
