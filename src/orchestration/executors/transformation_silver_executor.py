@@ -35,6 +35,9 @@ from src.transformation.silver.enrich.columns.overall_stress_level_group import 
 from src.transformation.silver.enrich.columns.physical_activity_level_group import (
     PhysicalActivityLevelGroup,
 )
+from src.transformation.silver.enrich.columns.referral_count_group import (
+    ReferralCountGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
@@ -103,6 +106,7 @@ class TransformationSilverExecutor:
                 StressFromFinancialDecisionsGroup(),
                 OverallStressLevelGroup(),
                 PhysicalActivityLevelGroup(),
+                ReferralCountGroup(),
             ]
         ).execute(df=df)
 
