@@ -19,7 +19,7 @@ class BrandLoyaltyScoreGroup(EnrichStructure):
         return df.with_columns(
             pl.col("brand_loyalty_score")
             .map_elements(self._classify)
-            .alias("brand_loyalty_score_group")
+            .alias(self.name().lower())
         )
 
     def _classify(

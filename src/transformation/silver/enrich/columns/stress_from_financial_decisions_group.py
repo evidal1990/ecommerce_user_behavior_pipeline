@@ -19,7 +19,7 @@ class StressFromFinancialDecisionsGroup(EnrichStructure):
         return df.with_columns(
             pl.col("stress_from_financial_decisions_level")
             .map_elements(self._classify)
-            .alias("stress_from_financial_decisions_level_group")
+            .alias(self.name().lower())
         )
 
     def _classify(

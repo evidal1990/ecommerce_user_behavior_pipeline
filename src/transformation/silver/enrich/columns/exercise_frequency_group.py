@@ -19,7 +19,7 @@ class ExerciseFrequencyGroup(EnrichStructure):
         return df.with_columns(
             pl.col("exercise_frequency_per_week")
             .map_elements(self._classify)
-            .alias("exercise_frequency_per_week_group")
+            .alias(self.name().lower())
         )
 
     def _classify(

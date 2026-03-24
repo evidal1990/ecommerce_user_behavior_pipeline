@@ -19,7 +19,7 @@ class HouseholdSizeGroup(EnrichStructure):
         return df.with_columns(
             pl.col("household_size")
             .map_elements(self._classify)
-            .alias("household_size_group")
+            .alias(self.name().lower())
         )
 
     def _classify(

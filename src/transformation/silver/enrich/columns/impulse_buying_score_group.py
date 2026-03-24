@@ -19,7 +19,7 @@ class ImpulseBuyingScoreGroup(EnrichStructure):
         return df.with_columns(
             pl.col("impulse_buying_score")
             .map_elements(self._classify)
-            .alias("impulse_buying_score_group")
+            .alias(self.name().lower())
         )
 
     def _classify(

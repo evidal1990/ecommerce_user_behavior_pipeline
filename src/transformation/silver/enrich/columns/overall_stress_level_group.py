@@ -4,32 +4,36 @@ import polars as pl
 from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 
 
-class SocialMediaInfluenceScoreGroup(EnrichStructure):
+class OverallStressLevelGroup(EnrichStructure):
 
     def __init__(self) -> None:
         pass
 
     def name(self) -> str:
-        return "SOCIAL_MEDIA_INFLUENCE_SCORE_GROUP"
+        return "OVERALL_STRESS_LEVEL_GROUP"
 
     def execute(
         self,
         df,
     ) -> pl.DataFrame:
         return df.with_columns(
-            pl.col("social_media_influence_score")
+            pl.col("overall_stress_level")
             .map_elements(self._classify)
             .alias(self.name().lower())
         )
 
     def _classify(
         self,
-        social_media_influence_score: int,
+        overall_stress_level: int,
     ) -> str:
-        if social_media_influence_score < 0:
+        if overall_stress_level < 0:
             return "Other"
-        elif social_media_influence_score <= 4:
+        elif overall_stress_level <= 2:
+            return "Very Low"
+        elif overall_stress_level <= 4:
             return "Low"
-        elif social_media_influence_score <= 7:
-            return "Medium"
-        return "High"
+        elif overall_stress_level <= 6:
+            return "Moderate"
+        elif overall_stress_level <= 8:
+            return "High"
+        return "Very High"

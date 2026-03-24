@@ -17,7 +17,7 @@ class AgeGroup(EnrichStructure):
         df,
     ) -> pl.DataFrame:
         return df.with_columns(
-            pl.col("age").map_elements(self._classify).alias("age_group")
+            pl.col("age").map_elements(self._classify).alias(self.name().lower())
         )
 
     def _classify(

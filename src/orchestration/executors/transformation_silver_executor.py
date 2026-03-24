@@ -29,6 +29,9 @@ from src.transformation.silver.enrich.columns.exercise_frequency_group import (
 from src.transformation.silver.enrich.columns.stress_from_financial_decisions_group import (
     StressFromFinancialDecisionsGroup,
 )
+from src.transformation.silver.enrich.columns.overall_stress_level_group import (
+    OverallStressLevelGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
@@ -94,7 +97,8 @@ class TransformationSilverExecutor:
                 ImpulseBuyingScoreGroup(),
                 SocialMediaInfluenceScoreGroup(),
                 ExerciseFrequencyGroup(),
-                StressFromFinancialDecisionsGroup()
+                StressFromFinancialDecisionsGroup(),
+                OverallStressLevelGroup(),
             ]
         ).execute(df=df)
 
