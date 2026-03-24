@@ -23,6 +23,9 @@ from src.transformation.silver.enrich.columns.impulse_buying_score_group import 
 from src.transformation.silver.enrich.columns.social_media_influence_score_group import (
     SocialMediaInfluenceScoreGroup,
 )
+from src.transformation.silver.enrich.columns.exercise_frequency_group import (
+    ExerciseFrequencyGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
@@ -77,11 +80,12 @@ class TransformationSilverExecutor:
         return EnrichData(
             [
                 CreateIsFutureDateColumn(settings=parent, column="last_purchase_date"),
-                AgeGroup(),
+                AgeGroup(), 
                 HouseholdSizeGroup(),
                 BrandLoyaltyScoreGroup(),
                 ImpulseBuyingScoreGroup(),
-                SocialMediaInfluenceScoreGroup()
+                SocialMediaInfluenceScoreGroup(),
+                ExerciseFrequencyGroup(),
             ]
         ).execute(df=df)
 
