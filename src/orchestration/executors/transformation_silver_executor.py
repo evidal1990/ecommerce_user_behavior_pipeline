@@ -11,6 +11,9 @@ from src.transformation.silver.enrich.columns.create_is_future_date_column impor
     CreateIsFutureDateColumn,
 )
 from src.transformation.silver.enrich.columns.age_group import AgeGroup
+from src.transformation.silver.enrich.columns.household_size_group import (
+    HouseholdSizeGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
@@ -67,7 +70,8 @@ class TransformationSilverExecutor:
             column="last_purchase_date",
         )
         age_group = AgeGroup()
-        return EnrichData([is_future, age_group]).execute(df=df)
+        household_size_group = HouseholdSizeGroup()
+        return EnrichData([is_future, age_group, household_size_group]).execute(df=df)
 
     def _write_silver(
         self,

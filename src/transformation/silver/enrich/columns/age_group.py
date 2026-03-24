@@ -18,10 +18,10 @@ class AgeGroup(EnrichStructure):
         df,
     ) -> pl.DataFrame:
         return df.with_columns(
-            pl.col("age").map_elements(self._classify_age).alias("age_group")
+            pl.col("age").map_elements(self._classify).alias("age_group")
         )
 
-    def _classify_age(
+    def _classify(
         self,
         age: int,
     ) -> str:
