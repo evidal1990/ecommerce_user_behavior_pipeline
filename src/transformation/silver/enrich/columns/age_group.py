@@ -11,7 +11,6 @@ class AgeGroup(EnrichStructure):
 
     def name(self) -> str:
         return "AGE_GROUP"
-    
 
     def execute(
         self,

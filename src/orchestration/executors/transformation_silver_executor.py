@@ -14,8 +14,12 @@ from src.transformation.silver.enrich.columns.age_group import AgeGroup
 from src.transformation.silver.enrich.columns.household_size_group import (
     HouseholdSizeGroup,
 )
+from src.transformation.silver.enrich.columns.brand_loyalty_score_group import (
+    BrandLoyaltyScoreGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
+from src.transformation.silver.enrich.columns import brand_loyalty_score_group
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 
@@ -65,13 +69,14 @@ class TransformationSilverExecutor:
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         parent = self._settings["parent"]
-        is_future = CreateIsFutureDateColumn(
-            settings=parent,
-            column="last_purchase_date",
-        )
-        age_group = AgeGroup()
-        household_size_group = HouseholdSizeGroup()
-        return EnrichData([is_future, age_group, household_size_group]).execute(df=df)
+        return EnrichData(
+            [
+                CreateIsFutureDateColumn(settings=parent, column="last_purchase_date"),
+                AgeGroup(),
+                HouseholdSizeGroup(),
+                BrandLoyaltyScoreGroup(),
+            ]
+        ).execute(df=df)
 
     def _write_silver(
         self,

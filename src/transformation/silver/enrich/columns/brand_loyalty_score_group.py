@@ -4,34 +4,32 @@ import polars as pl
 from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 
 
-class HouseholdSizeGroup(EnrichStructure):
+class BrandLoyaltyScoreGroup(EnrichStructure):
 
     def __init__(self) -> None:
         pass
 
     def name(self) -> str:
-        return "HOUSEHOLD_SIZE_GROUP"
+        return "BRAND_LOYALTY_SCORE_GROUP"
 
     def execute(
         self,
         df,
     ) -> pl.DataFrame:
         return df.with_columns(
-            pl.col("household_size")
+            pl.col("brand_loyalty_score")
             .map_elements(self._classify)
-            .alias("household_size_group")
+            .alias("brand_loyalty_score_group")
         )
 
     def _classify(
         self,
         household_size: int,
     ) -> str:
-        if household_size < 1:
+        if household_size < 0:
             return "Other"
-        elif household_size == 1:
-            return "Single-person Household"
-        elif household_size <= 3:
-            return "Small Household"
-        elif household_size <= 5:
-            return "Medium Household"
-        return "Large Household"
+        elif household_size <= 6:
+            return "Detractors"
+        elif household_size <= 8:
+            return "Neutral"
+        return "Promoters"
