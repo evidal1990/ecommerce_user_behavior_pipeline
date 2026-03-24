@@ -26,6 +26,9 @@ from src.transformation.silver.enrich.columns.social_media_influence_score_group
 from src.transformation.silver.enrich.columns.exercise_frequency_group import (
     ExerciseFrequencyGroup,
 )
+from src.transformation.silver.enrich.columns.stress_from_financial_decisions_group import (
+    StressFromFinancialDecisionsGroup,
+)
 from src.transformation.silver.normalize.min_max_strategy import MinMaxScaling  # noqa.
 from src.utils import file_io
 
@@ -70,7 +73,12 @@ class TransformationSilverExecutor:
         contract = self._load_contract()
         columns = contract["actions"]["normalize"]["columns"]
         min_max = [MinMaxScaling(column=col) for col in columns]
-        return Normalize(min_max).execute(df=df)
+        return Normalize(
+            [
+                MinMaxScaling(column="stress_from_financial_decisions_level"),
+                MinMaxScaling(column="overall_stress_level"),
+            ]
+        ).execute(df=df)
 
     def _enrich(
         self,
@@ -80,12 +88,13 @@ class TransformationSilverExecutor:
         return EnrichData(
             [
                 CreateIsFutureDateColumn(settings=parent, column="last_purchase_date"),
-                AgeGroup(), 
+                AgeGroup(),
                 HouseholdSizeGroup(),
                 BrandLoyaltyScoreGroup(),
                 ImpulseBuyingScoreGroup(),
                 SocialMediaInfluenceScoreGroup(),
                 ExerciseFrequencyGroup(),
+                StressFromFinancialDecisionsGroup()
             ]
         ).execute(df=df)
 
