@@ -33,6 +33,7 @@ from src.transformation.silver.enrich.columns import (
     PurchaseConversionRateGroup,
     AppUsageFrequencyGroup,
     NotificationResponseRateGroup,
+    SocialSharingFrequencyGroup,
 )
 
 # Utils
@@ -127,6 +128,7 @@ class TransformationSilverExecutor:
                 PurchaseConversionRateGroup(),
                 AppUsageFrequencyGroup(),
                 NotificationResponseRateGroup(),
+                SocialSharingFrequencyGroup(),
             ]
         ).execute(df=df)
 
