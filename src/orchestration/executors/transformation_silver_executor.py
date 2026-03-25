@@ -32,6 +32,7 @@ from src.transformation.silver.enrich.columns import (
     ReturnRateGroup,
     PurchaseConversionRateGroup,
     AppUsageFrequencyGroup,
+    NotificationResponseRateGroup,
 )
 
 # Utils
@@ -64,12 +65,13 @@ class TransformationSilverExecutor:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        steps = [
-            RemoveDuplicates(),
-            FormatData(),
-            FillColumns(),
-        ]
-        return CleanData(steps).execute(df=df)
+        return CleanData(
+            [
+                RemoveDuplicates(),
+                FormatData(),
+                FillColumns(),
+            ]
+        ).execute(df=df)
 
     def _normalize(
         self,
@@ -124,6 +126,7 @@ class TransformationSilverExecutor:
                 ReturnRateGroup(),
                 PurchaseConversionRateGroup(),
                 AppUsageFrequencyGroup(),
+                NotificationResponseRateGroup(),
             ]
         ).execute(df=df)
 
