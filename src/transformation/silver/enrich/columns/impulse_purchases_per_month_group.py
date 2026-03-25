@@ -24,12 +24,10 @@ class ImpulsePurchasesPerMonthGroup(EnrichStructure):
         self,
         impulse_purchases_per_month: int,
     ) -> str:
-        if impulse_purchases_per_month < 0:
-            return "Other"
-        elif impulse_purchases_per_month == 0:
+        if impulse_purchases_per_month == 0:
             return "Non-impulsive"
         elif impulse_purchases_per_month <= 2:
-            return "Not Very Impulsive"
+            return "Occasional Impulse Buyer"
         elif impulse_purchases_per_month <= 5:
-            return "Moderate"
-        return "Impulsilve"
+            return "Moderate Impulse Buyer"
+        return "Frequent Impulse Buyer"

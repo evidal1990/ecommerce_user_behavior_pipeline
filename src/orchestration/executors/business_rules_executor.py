@@ -6,6 +6,9 @@ from consts.employment_status import EmploymentStatus
 from src.utils import file_io
 from src.validation import RulesValidator
 from src.validation.business.employment_status_income import IncomePerEmploymentStatus
+from src.validation.semantic.allowed_min_value import AllowedMinValue
+from src.validation.semantic.allowed_max_value import AllowedMaxValue
+from src.validation.semantic.allowed_column_values import AllowedColumnValues
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]
@@ -18,11 +21,46 @@ class BusinessRulesExecutor:
     def start(self, df: pl.DataFrame) -> None:
         logging.info("Validação de regras de negócio iniciada")
 
-        rules = [
-            IncomePerEmploymentStatus(status=EmploymentStatus.EMPLOYED),
-            IncomePerEmploymentStatus(status=EmploymentStatus.SELF_EMPLOYED),
-            IncomePerEmploymentStatus(status=EmploymentStatus.UNEMPLOYED),
-        ]
+        contract = self._get_contract()
+        rules = []
+        rules.append(
+            IncomePerEmploymentStatus(
+                status=EmploymentStatus.EMPLOYED,
+            )
+        )
+        rules.append(
+            IncomePerEmploymentStatus(
+                status=EmploymentStatus.SELF_EMPLOYED,
+            )
+        )
+        rules.append(
+            IncomePerEmploymentStatus(
+                status=EmploymentStatus.UNEMPLOYED,
+            )
+        )
+
+        for column, config in contract["columns"].items():
+            if "min" in config:
+                rules.append(
+                    AllowedMinValue(
+                        column=column,
+                        min=config["min"],
+                    )
+                )
+            if "max" in config:
+                rules.append(
+                    AllowedMaxValue(
+                        column=column,
+                        max=config["max"],
+                    )
+                )
+            if "values" in config:
+                rules.append(
+                    AllowedColumnValues(
+                        column=column,
+                        values=config["values"],
+                    )
+                )
 
         RulesValidator(RuleType.BUSINESS, rules).execute(df)
         logging.info("Validação de regras de negócio finalizada\n")

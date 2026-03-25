@@ -25,13 +25,13 @@ class ImpulseBuyingScoreGroup(EnrichStructure):
         impulse_buying_score: int,
     ) -> str:
         if impulse_buying_score < 0:
-            return "Other"
+            return "Unknown"
         elif impulse_buying_score <= 2:
-            return "Very Low"
+            return "Highly Deliberate"
         elif impulse_buying_score <= 4:
-            return "Low"
+            return "Considered Buyer"
         elif impulse_buying_score <= 6:
-            return "Moderate"
+            return "Balanced Buyer"
         elif impulse_buying_score <= 8:
-            return "High"
-        return "Very High"
+            return "Impulse-Prone"
+        return "Highly Impulsive"

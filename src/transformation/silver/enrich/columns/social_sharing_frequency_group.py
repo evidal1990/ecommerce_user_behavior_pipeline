@@ -24,10 +24,8 @@ class SocialSharingFrequencyGroup(EnrichStructure):
         self,
         social_sharing_frequency_per_year: int,
     ) -> str:
-        if social_sharing_frequency_per_year < 0:
-            return "Other"
-        elif social_sharing_frequency_per_year <= 4:
-            return "Low"
+        if social_sharing_frequency_per_year <= 4:
+            return "Rare Sharer"
         elif social_sharing_frequency_per_year <= 8:
-            return "Moderate"
-        return "High"
+            return "Occasional Sharer"
+        return "Frequent Sharer"

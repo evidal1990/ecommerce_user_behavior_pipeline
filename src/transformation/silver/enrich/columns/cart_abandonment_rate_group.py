@@ -24,14 +24,12 @@ class CartAbandonmentRateGroup(EnrichStructure):
         self,
         cart_abandonment_rate: int,
     ) -> str:
-        if cart_abandonment_rate < 0:
-            return "Other"
-        elif cart_abandonment_rate <= 20:
-            return "Very Low"
+        if cart_abandonment_rate <= 20:
+            return "Rare Abandoner"
         elif cart_abandonment_rate <= 40:
-            return "Low"
+            return "Occasional Abandoner"
         elif cart_abandonment_rate <= 60:
-            return "Moderate"
+            return "Moderate Abandoner"
         elif cart_abandonment_rate <= 80:
-            return "High"
-        return "Very High"
+            return "Frequent Abandoner"
+        return "Heavy Abandoner"

@@ -24,12 +24,10 @@ class HouseholdSizeGroup(EnrichStructure):
         self,
         household_size: int,
     ) -> str:
-        if household_size < 1:
-            return "Other"
-        elif household_size == 1:
-            return "Single-person"
+        if household_size == 1:
+            return "Single-person Household"
         elif household_size <= 3:
-            return "Small"
+            return "Small Household (2–3)"
         elif household_size <= 5:
-            return "Medium"
-        return "Large"
+            return "Medium Household (4–5)"
+        return "Large Household (6+)"

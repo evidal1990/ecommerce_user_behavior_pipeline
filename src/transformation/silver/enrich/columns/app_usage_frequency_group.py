@@ -24,10 +24,8 @@ class AppUsageFrequencyGroup(EnrichStructure):
         self,
         app_usage_frequency_per_week: int,
     ) -> str:
-        if app_usage_frequency_per_week < 0:
-            return "Other"
-        elif app_usage_frequency_per_week <= 1:
-            return "Low"
+        if app_usage_frequency_per_week <= 1:
+            return "Light User"
         elif app_usage_frequency_per_week <= 4:
-            return "Moderate"
-        return "High"
+            return "Regular User"
+        return "Heavy User"

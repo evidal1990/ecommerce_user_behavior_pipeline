@@ -24,14 +24,12 @@ class NotificationResponseRateGroup(EnrichStructure):
         self,
         notification_response_rate: int,
     ) -> str:
-        if notification_response_rate < 0:
-            return "Other"
-        elif notification_response_rate <= 20:
-            return "Very Low"
+        if notification_response_rate <= 20:
+            return "Unresponsive"
         elif notification_response_rate <= 40:
-            return "Low"
+            return "Rarely Responsive"
         elif notification_response_rate <= 60:
-            return "Moderate"
+            return "Occasionally Responsive"
         elif notification_response_rate <= 80:
-            return "High"
-        return "Very High"
+            return "Responsive"
+        return "Highly Responsive"

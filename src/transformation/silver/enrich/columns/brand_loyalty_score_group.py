@@ -25,7 +25,7 @@ class BrandLoyaltyScoreGroup(EnrichStructure):
         brand_loyalty_score: int,
     ) -> str:
         if brand_loyalty_score < 0:
-            return "Other"
+            return "Unknown"
         elif brand_loyalty_score <= 6:
             return "Detractors"
         elif brand_loyalty_score <= 8:

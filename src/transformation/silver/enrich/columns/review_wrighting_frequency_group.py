@@ -25,11 +25,11 @@ class ReviewWrightingFrequencyGroup(EnrichStructure):
         review_writing_frequency_per_year: int,
     ) -> str:
         if review_writing_frequency_per_year <= 1:
-            return "Very Low"
+            return "Non-Reviewer"
         elif review_writing_frequency_per_year <= 4:
-            return "Low"
+            return "Rare Reviewer"
         elif review_writing_frequency_per_year <= 7:
-            return "Moderate"
+            return "Occasional Contributor"
         elif review_writing_frequency_per_year <= 10:
-            return "High"
-        return "Very High"
+            return "Active Contributor"
+        return "Power Contributor"

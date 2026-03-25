@@ -24,14 +24,12 @@ class OverallStressLevelGroup(EnrichStructure):
         self,
         overall_stress_level: int,
     ) -> str:
-        if overall_stress_level < 0:
-            return "Other"
-        elif overall_stress_level <= 2:
-            return "Very Low"
+        if overall_stress_level <= 2:
+            return "Very Relaxed"
         elif overall_stress_level <= 4:
-            return "Low"
+            return "Relaxed"
         elif overall_stress_level <= 6:
-            return "Moderate"
+            return "Balanced"
         elif overall_stress_level <= 8:
-            return "High"
-        return "Very High"
+            return "Stressed"
+        return "Highly Stressed"

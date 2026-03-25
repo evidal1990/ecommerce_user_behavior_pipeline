@@ -24,12 +24,10 @@ class ExerciseFrequencyGroup(EnrichStructure):
         self,
         exercise_frequency: int,
     ) -> str:
-        if exercise_frequency < 0:
-            return "Other"
-        elif exercise_frequency == 0:
+        if exercise_frequency == 0:
             return "Inactive"
         elif exercise_frequency <= 2:
             return "Lightly Active"
         elif exercise_frequency <= 4:
-            return "Active"
+            return "Moderately Active"
         return "Highly Active"

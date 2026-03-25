@@ -53,12 +53,12 @@ class Pipeline:
         SemanticRulesExecutor().start(
             df=df_after_transformation_bronze,
         )
-        TransformationSilverExecutor(
+        df_after_transformation_silver = TransformationSilverExecutor(
             settings=self.settings,
         ).start(
             df=df_after_transformation_bronze,
         )
         BusinessRulesExecutor().start(
-            df=df_after_transformation_bronze,
+            df=df_after_transformation_silver,
         )
         logging.info("Pipeline finalizada")

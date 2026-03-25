@@ -29,7 +29,7 @@ class ReferralCountGroup(EnrichStructure):
         elif referral_count == 0:
             return "Non-referrer"
         elif referral_count <= 2:
-            return "Low"
+            return "Occasional Referrer"
         elif referral_count <= 5:
-            return "Moderate"
-        return "High"
+            return "Active Referrer"
+        return "Advocate"

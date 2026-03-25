@@ -54,12 +54,12 @@ class TransformationSilverExecutor:
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         logging.info("Transformação de dados provenientes da camada bronze iniciada")
-        df = self._clean(df=df)
-        df = self._normalize(df=df)
-        df = self._enrich(df=df)
-        self._write_silver(df=df)
+        df_after_cleanning = self._clean(df=df)
+        df_after_normalization = self._normalize(df=df_after_cleanning)
+        df_after_enrichment = self._enrich(df=df_after_normalization)
+        self._write_silver(df=df_after_enrichment)
         logging.info("Transformação de dados provenientes da camada bronze finalizada")
-        return df
+        return df_after_enrichment
 
     def _clean(
         self,
@@ -100,6 +100,9 @@ class TransformationSilverExecutor:
                 MinMaxScaling(column="notification_response_rate"),
                 MinMaxScaling(column="cart_abandonment_rate"),
                 MinMaxScaling(column="browse_to_buy_ratio"),
+                MinMaxScaling(column="exercise_frequency_per_week"),
+                MinMaxScaling(column="coupon_usage_frequency"),
+                MinMaxScaling(column="app_usage_frequency_per_week"),
             ]
         ).execute(df=df)
 

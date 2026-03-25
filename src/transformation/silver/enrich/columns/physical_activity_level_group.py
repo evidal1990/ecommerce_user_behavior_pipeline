@@ -24,14 +24,12 @@ class PhysicalActivityLevelGroup(EnrichStructure):
         self,
         physical_activity_level: int,
     ) -> str:
-        if physical_activity_level < 0:
-            return "Other"
-        elif physical_activity_level <= 2:
-            return "Very Light"
+        if physical_activity_level <= 2:
+            return "Sedentary"
         elif physical_activity_level <= 4:
-            return "Light"
+            return "Lightly Activity"
         elif physical_activity_level <= 6:
-            return "Moderate"
+            return "Moderate Activity"
         elif physical_activity_level <= 8:
-            return "Heavy"
-        return "Very Heavy"
+            return "Intense Activity"
+        return "Very Intense Activity"

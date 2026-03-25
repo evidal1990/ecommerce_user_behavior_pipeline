@@ -24,14 +24,12 @@ class PurchaseConversionRateGroup(EnrichStructure):
         self,
         return_rate: int,
     ) -> str:
-        if return_rate < 0:
-            return "Other"
-        elif return_rate <= 20:
-            return "Very Low"
+        if return_rate <= 20:
+            return "Rare Buyer"
         elif return_rate <= 40:
-            return "Low"
+            return "Occasional Buyer"
         elif return_rate <= 60:
-            return "Moderate"
+            return "Considered Buyer"
         elif return_rate <= 80:
-            return "High"
-        return "Very High"
+            return "Frequent Buyer"
+        return "Power Buyer"

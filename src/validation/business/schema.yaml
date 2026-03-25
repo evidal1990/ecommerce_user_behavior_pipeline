@@ -1,358 +1,125 @@
 columns:
-  user_id:
-    dtype: Int64
-    not_null: True
-    required: True
-  age:
-    dtype: Int64
-    not_null: True
-    required: True
-    min: 18
-    max: 99
-  gender:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Male",
-      "Female",
-      "Non-binary",
-      "Other",
-    ]
-  country:
-    dtype: String
-    not_null: True
-    required: True
-  urban_rural:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Urban",
-      "Rural",
-      "Suburban",
-    ]
-  annual_income:
-    dtype: Float64
-    not_null: True
-    required: True
-  education_level:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "High School",
-      "Bachelor",
-      "Master",
-      "PhD",
-      "Associate Degree",
-    ]
-  employment_status:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Employed",
-      "Unemployed",
-      "Retired",
-      "Student",
-      "Self-employed",
-    ]
-  relationship_status:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Single",
-      "In a relationship",
-      "Married",
-      "Divorced",
-      "Widowed",
-    ]
-  has_children:
-    dtype: Boolean
-    not_null: True
-    required: True
-    values: [True,False]
-  dtype: Int64
-  household_size:
-    dtype: Int64
-    not_null: True
-    required: True
-  occupation:
-    dtype: String
-    not_null: True
-    required: True
-  ethnicity:
-    dtype: String
-    not_null: False
-    required: True
-    values: [
-      "African",
-      "African American",
-      "Caucasian",
-      "Asian",
-      "Indigebous/Native",
-      "Arabic",
-      "Jewish",
-      "Hispanic",
-      "Pacific",
-      "Other",
-    ]
-  language_preference:
-    dtype: String
-    not_null: False
-    required: True
-  device_type:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Mobile",
-      "Desktop",
-      "Tablet",
-    ]
-  budgeting_style:
-    dtype: String
-    not_null: False
-    required: True
-    values: [
-      "Strict",
-      "Moderate",
-      "Loose",
-    ]
-  brand_loyalty_score:
+  brand_loyalty_score_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  impulse_buying_score:
+  impulse_buying_score_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  has_environmental_consciousness:
-    dtype: Boolean
-    not_null: False
-    required: True
-    values: [True,False]
-  has_health_conscious_shopping:
-    dtype: Boolean
-    not_null: False
-    required: True
-    values: [True,False]
-  travel_frequency_per_year:
-    dtype: Int64
-    not_null: False
-    required: True
-  hobby_count:
-    dtype: Int64
-    not_null: False
-    required: True
-  social_media_influence_score:
+  social_media_influence_score_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  reading_habits_per_month:
-    dtype: Int64
-    not_null: False
-    required: True
-  exercise_frequency_per_week:
+  exercise_frequency_per_week_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  stress_from_financial_decisions_level:
+  stress_from_financial_decisions_level_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  overall_stress_level:
+  overall_stress_level_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  sleep_quality_level:
+  sleep_quality_level_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  physical_activity_level:
+  physical_activity_level_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  mental_health_score:
+  mental_health_score_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  weekly_purchases:
-    dtype: Int64
-    not_null: True
-    required: True
-  monthly_spend:
-    dtype: Float64
-    not_null: True
-    required: True
-  average_order_value:
-    dtype: Float64
-    not_null: False
-    required: True
-  preferred_payment_method:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Credit Card",
-      "Debit Card", 
-      "Apple Pay", 
-      "Google Pay", 
-      "PayPal", 
-      "Bank Transfer", 
-      "Other", 
-    ]
-  coupon_usage_frequency:
+  coupon_usage_frequency_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  is_loyalty_program_member:
-    dtype: Boolean
-    not_null: False
-    required: True
-    values: [True,False]
-  referral_count:
-    dtype: Int64
-    not_null: True
-    required: True
-  product_category_preference:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Groceries",
-      "Beauty",
-      "Toys",
-      "Home & Health",
-      "Home & Kitchen",
-      "Sports",
-      "Electronics",
-      "Fashion",
-      "Books",
-    ]
-  shopping_time_of_day:
-    dtype: String
-    not_null: false
-    required: True
-    values: [
-      "Morning",
-      "Afternoon",
-      "Evening",
-      "Night",
-    ]
-  is_weekend_shopper:
-    dtype: Boolean
-    not_null: False
-    required: True
-    values: [True,False]
-  impulse_purchases_per_month:
+  impulse_purchases_per_month_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  browse_to_buy_ratio:
+  browse_to_buy_ratio_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  return_frequency_per_year:
+  return_frequency_per_year_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  return_rate:
+  return_rate_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  daily_session_time_minutes:
-    dtype: Int64
-    not_null: True
-    required: True
-  product_views_per_day:
-    dtype: Int64
-    not_null: True
-    required: True
-  ad_views_per_day:
-    dtype: Int64
-    not_null: False
-    required: True
-  checkout_abandonments_per_month:
+  checkout_abandonments_per_month_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  purchase_conversion_rate:
+  purchase_conversion_rate_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  app_usage_frequency_per_week:
+  app_usage_frequency_per_week_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  notification_response_rate:
+  notification_response_rate_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  account_age_months:
-    dtype: Int64
-    not_null: True
-    required: True
-  last_purchase_date:
-    dtype: Date
-    not_null: True
-    required: True
-  social_sharing_frequency_per_year:
+  social_sharing_frequency_per_year_scaled:
     dtype: Int64
     not_null: False
     required: True
     min: 0
     max: 1
-  premium_subscription:
-    dtype: Boolean
-    not_null: True
-    required: True
-    values: [True,False]
-  cart_abandonment_rate:
+  cart_abandonment_rate_scaled:
     dtype: Int64
     not_null: True
     required: True
     min: 0
     max: 1
-  review_writing_frequency_per_year:
+  review_writing_frequency_per_year_scaled:
     dtype: Int64
     not_null: False
     required: True
@@ -368,7 +135,7 @@ columns:
     not_null: True
     required: True
     values: [
-      "Other",
+      "Unknown",
       "Early Adopters",
       "Early Career Professionals",
       "Professional Consolidation",
@@ -381,18 +148,18 @@ columns:
     not_null: True
     required: True
     values: [
-      "Other",
-      "Single-person",
-      "Small",
-      "Medium",
-      "Large",
+      "Unknown",
+      "Single-person Household",
+      "Small Household (2–3)",
+      "Medium Household (4–5)",
+      "Large Household (6+)",
     ]
   brand_loyalty_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
+      "Unknown",
       "Detractors",
       "Neutral",
       "Promoters",
@@ -402,32 +169,31 @@ columns:
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Unknown",
+      "Highly Deliberate",
+      "Considered Buyer",
+      "Balanced Buyer",
+      "Impulse-Prone",
+      "Highly Impulsive",
     ]
   social_media_influence_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Low",
-      "Medium",
-      "High",
+      "Unknown",
+      "Independent",
+      "Influence-Aware",
+      "Highly Influenced",
     ]
   exercise_frequency_per_week_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
       "Inactive",
       "Lightly Active",
-      "Active",
+      "Moderately Active",
       "Highly Active",
     ]
   stress_from_financial_decisions_level_group:
@@ -435,36 +201,33 @@ columns:
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Medium",
-      "High",
-      "Very High",
+      "Financially Unconcerned",
+      "Financially Comfortable",
+      "Financially Aware",
+      "Financially Stressed",
+      "Financially Overwhelmed",
     ]
   overall_stress_level_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Medium",
-      "High",
-      "Very High",
+      "Very Relaxed",
+      "Relaxed",
+      "Balanced",
+      "Stressed",
+      "Highly Stressed",
     ]
   physical_activity_level_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Light",
-      "Light",
-      "Moderate",
-      "Heavy",
-      "Very Heavy",
+      "Sedentary",
+      "Lightly Activity",
+      "Moderate Activity",
+      "Intense Activity",
+      "Very Intense Activity",
     ]
   referral_count_group:
     dtype: String
@@ -473,122 +236,101 @@ columns:
     values: [
       "Other",
       "Non-referrer",
-      "Low",
-      "Moderate",
-      "High",
+      "Occasional Referrer",
+      "Active Referrer",
+      "Advocate",
     ]
   impulse_purchases_per_month_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
       "Non-impulsive",
-      "Not Very Impulsive",
-      "Moderate",
-      "Impulsilve",
+      "Occasional Impulse Buyer",
+      "Moderate Impulse Buyer",
+      "Frequent Impulse Buyer",
     ]
   browse_to_buy_ratio_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Browse a Lot & Buy Little",
-      "Low Intention",
-      "Undecided",
-      "Good Intention",
-      "High Intention",
+      "Heavy Browser",
+      "Casual Browser",
+      "Considering Buyer",
+      "Intentional Buyer",
+      "Decisive Buyer",
     ]
   return_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Rare Returner",
+      "Occasional Returner",
+      "Moderate Returner",
+      "Frequent Returner",
+      "Heavy Returner",
     ]
   purchase_conversion_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
-    ]
-  purchase_conversion_rate_group:
-    dtype: String
-    not_null: True
-    required: True
-    values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Rare Buyer",
+      "Occasional Buyer",
+      "Considered Buyer",
+      "Frequent Buyer",
+      "Power Buyer",
     ]
   app_usage_frequency_per_week_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Low",
-      "Moderate",
-      "High",
+      "Light User",
+      "Regular User",
+      "Heavy User",
     ]
   notification_response_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Unresponsive",
+      "Rarely Responsive",
+      "Occasionally Responsive",
+      "Responsive",
+      "Highly Responsive",
     ]
   social_sharing_frequency_per_year_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Low",
-      "Moderate",
-      "High",
+      "Rare Sharer",
+      "Occasional Sharer",
+      "Frequent Sharer",
     ]
   cart_abandonment_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Rare Abandoner",
+      "Occasional Abandoner",
+      "Moderate Abandoner",
+      "Frequent Abandoner",
+      "Heavy Abandoner",
     ]
   review_writing_frequency_per_year_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Other",
-      "Very Low",
-      "Low",
-      "Moderate",
-      "High",
-      "Very High",
+      "Non-Reviewer",
+      "Rare Reviewer",
+      "Occasional Contributor",
+      "Active Contributor",
+      "Power Contributor",
     ]

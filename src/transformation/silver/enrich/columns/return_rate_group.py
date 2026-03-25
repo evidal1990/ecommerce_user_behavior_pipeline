@@ -24,14 +24,12 @@ class ReturnRateGroup(EnrichStructure):
         self,
         return_rate: int,
     ) -> str:
-        if return_rate < 0:
-            return "Other"
-        elif return_rate <= 20:
-            return "Very Low"
+        if return_rate <= 20:
+            return "Rare Returner"
         elif return_rate <= 40:
-            return "Low"
+            return "Occasional Returner"
         elif return_rate <= 60:
-            return "Moderate"
+            return "Moderate Returner"
         elif return_rate <= 80:
-            return "High"
-        return "Very High"
+            return "Frequent Returner"
+        return "Heavy Returner"

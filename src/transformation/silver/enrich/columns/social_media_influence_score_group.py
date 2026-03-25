@@ -25,9 +25,9 @@ class SocialMediaInfluenceScoreGroup(EnrichStructure):
         social_media_influence_score: int,
     ) -> str:
         if social_media_influence_score < 0:
-            return "Other"
+            return "Unknown"
         elif social_media_influence_score <= 4:
-            return "Low"
+            return "Independent"
         elif social_media_influence_score <= 7:
-            return "Medium"
-        return "High"
+            return "Influence-Aware"
+        return "Highly Influenced"

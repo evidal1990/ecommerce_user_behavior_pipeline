@@ -23,7 +23,7 @@ class AgeGroup(EnrichStructure):
         age: int,
     ) -> str:
         if age < 18:
-            return "Other"
+            return "Unknown"
         elif age <= 24:
             return "Early Adopters"
         elif age <= 34:

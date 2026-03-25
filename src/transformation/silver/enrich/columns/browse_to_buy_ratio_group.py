@@ -24,14 +24,12 @@ class BrowseToBuyRatioGroup(EnrichStructure):
         self,
         browse_to_buy_ratio: int,
     ) -> str:
-        if browse_to_buy_ratio < 0:
-            return "Other"
-        elif browse_to_buy_ratio <= 20:
-            return "Browse a Lot & Buy Little"
+        if browse_to_buy_ratio <= 20:
+            return "Heavy Browser"
         elif browse_to_buy_ratio <= 40:
-            return "Low Intention"
+            return "Casual Browser"
         elif browse_to_buy_ratio <= 60:
-            return "Undecided"
+            return "Considering Buyer"
         elif browse_to_buy_ratio <= 80:
-            return "Good Intention"
-        return "High Intention"
+            return "Intentional Buyer"
+        return "Decisive Buyer"

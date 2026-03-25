@@ -24,14 +24,12 @@ class StressFromFinancialDecisionsGroup(EnrichStructure):
         self,
         stress_from_financial_decisions_level: int,
     ) -> str:
-        if stress_from_financial_decisions_level < 0:
-            return "Other"
-        elif stress_from_financial_decisions_level <= 2:
-            return "Very Low"
+        if stress_from_financial_decisions_level <= 2:
+            return "Financially Unconcerned"
         elif stress_from_financial_decisions_level <= 4:
-            return "Low"
+            return "Financially Comfortable"
         elif stress_from_financial_decisions_level <= 6:
-            return "Moderate"
+            return "Financially Aware"
         elif stress_from_financial_decisions_level <= 8:
-            return "High"
-        return "Very High"
+            return "Financially Stressed"
+        return "Financially Overwhelmed"
