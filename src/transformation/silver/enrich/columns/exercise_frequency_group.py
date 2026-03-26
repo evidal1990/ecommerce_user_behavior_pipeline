@@ -14,20 +14,20 @@ class ExerciseFrequencyGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Sedentary",
+            "Lightly Active",
+            "Moderately Active",
+            "Highly Active",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("exercise_frequency_per_week")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("exercise_frequency_per_week")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("exercise_frequency_per_week_group"),
+                pl.col("exercise_frequency_per_week")
+                .qcut(quantiles=x_pieces)
+                .alias("exercise_frequency_per_week_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        exercise_frequency: int,
-    ) -> str:
-        if exercise_frequency == 0:
-            return "Inactive"
-        elif exercise_frequency <= 2:
-            return "Lightly Active"
-        elif exercise_frequency <= 4:
-            return "Moderately Active"
-        return "Highly Active"

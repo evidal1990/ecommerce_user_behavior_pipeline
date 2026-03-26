@@ -14,22 +14,17 @@ class StressFromFinancialDecisionsGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Financially Unconcerned",
+            "Financially Comfortable",
+            "Financially Aware",
+            "Financially Stressed",
+            "Financially Overwhelmed",
+        ]
         return df.with_columns(
-            pl.col("stress_from_financial_decisions_level")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("stress_from_financial_decisions_level")
+                .qcut(quantiles=5, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        stress_from_financial_decisions_level: int,
-    ) -> str:
-        if stress_from_financial_decisions_level <= 2:
-            return "Financially Unconcerned"
-        elif stress_from_financial_decisions_level <= 4:
-            return "Financially Comfortable"
-        elif stress_from_financial_decisions_level <= 6:
-            return "Financially Aware"
-        elif stress_from_financial_decisions_level <= 8:
-            return "Financially Stressed"
-        return "Financially Overwhelmed"

@@ -14,20 +14,21 @@ class HouseholdSizeGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Very Small Household",
+            "Small Household",
+            "Medium Household",
+            "Large Household",
+            "Very Large Household",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("household_size")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("household_size")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("household_size_group"),
+                pl.col("household_size")
+                .qcut(quantiles=x_pieces)
+                .alias("household_size_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        household_size: int,
-    ) -> str:
-        if household_size == 1:
-            return "Single-person Household"
-        elif household_size <= 3:
-            return "Small Household (2–3)"
-        elif household_size <= 5:
-            return "Medium Household (4–5)"
-        return "Large Household (6+)"

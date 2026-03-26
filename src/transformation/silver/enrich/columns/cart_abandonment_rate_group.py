@@ -14,22 +14,16 @@ class CartAbandonmentRateGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Rare Abandoner",
+            "Occasional Abandoner",
+            "Frequent Abandoner",
+            "Heavy Abandoner",
+        ]
         return df.with_columns(
-            pl.col("cart_abandonment_rate")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("cart_abandonment_rate")
+                .qcut(quantiles=4, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        cart_abandonment_rate: int,
-    ) -> str:
-        if cart_abandonment_rate <= 20:
-            return "Rare Abandoner"
-        elif cart_abandonment_rate <= 40:
-            return "Occasional Abandoner"
-        elif cart_abandonment_rate <= 60:
-            return "Moderate Abandoner"
-        elif cart_abandonment_rate <= 80:
-            return "Frequent Abandoner"
-        return "Heavy Abandoner"

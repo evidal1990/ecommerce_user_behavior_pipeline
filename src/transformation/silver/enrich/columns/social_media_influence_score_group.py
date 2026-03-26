@@ -14,20 +14,19 @@ class SocialMediaInfluenceScoreGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Independent",
+            "Influence-Aware",
+            "Highly Influenced",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("social_media_influence_score")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("social_media_influence_score")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("social_media_influence_score_group"),
+                pl.col("social_media_influence_score")
+                .qcut(quantiles=x_pieces)
+                .alias("social_media_influence_score_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        social_media_influence_score: int,
-    ) -> str:
-        if social_media_influence_score < 0:
-            return "Unknown"
-        elif social_media_influence_score <= 4:
-            return "Independent"
-        elif social_media_influence_score <= 7:
-            return "Influence-Aware"
-        return "Highly Influenced"

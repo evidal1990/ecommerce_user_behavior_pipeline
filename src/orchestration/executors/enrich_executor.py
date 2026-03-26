@@ -21,6 +21,7 @@ from src.transformation.silver.enrich.columns import (
     SocialSharingFrequencyGroup,
     CartAbandonmentRateGroup,
     ReviewWrightingFrequencyGroup,
+    AnnualIncomeGroup,
 )
 
 
@@ -58,5 +59,6 @@ class EnrichExecutor:
         columns.append(SocialSharingFrequencyGroup())
         columns.append(CartAbandonmentRateGroup())
         columns.append(ReviewWrightingFrequencyGroup())
+        columns.append(AnnualIncomeGroup())
 
         return EnrichData(columns).execute(df=df)

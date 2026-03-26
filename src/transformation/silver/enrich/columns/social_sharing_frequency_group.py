@@ -14,18 +14,16 @@ class SocialSharingFrequencyGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Rare Sharer",
+            "Occasional Sharer",
+            "Frequent Sharer",
+            "Heavy Sharer",
+        ]
         return df.with_columns(
-            pl.col("social_sharing_frequency_per_year")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("social_sharing_frequency_per_year")
+                .qcut(quantiles=4, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        social_sharing_frequency_per_year: int,
-    ) -> str:
-        if social_sharing_frequency_per_year <= 4:
-            return "Rare Sharer"
-        elif social_sharing_frequency_per_year <= 8:
-            return "Occasional Sharer"
-        return "Frequent Sharer"

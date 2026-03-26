@@ -14,24 +14,21 @@ class ImpulseBuyingScoreGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Highly Deliberate",
+            "Considered Buyer",
+            "Balanced Buyer",
+            "Impulse-Prone",
+            "Highly Impulsive",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("impulse_buying_score")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("impulse_buying_score")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("impulse_buying_score_group"),
+                pl.col("impulse_buying_score")
+                .qcut(quantiles=x_pieces)
+                .alias("impulse_buying_score_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        impulse_buying_score: int,
-    ) -> str:
-        if impulse_buying_score < 0:
-            return "Unknown"
-        elif impulse_buying_score <= 2:
-            return "Highly Deliberate"
-        elif impulse_buying_score <= 4:
-            return "Considered Buyer"
-        elif impulse_buying_score <= 6:
-            return "Balanced Buyer"
-        elif impulse_buying_score <= 8:
-            return "Impulse-Prone"
-        return "Highly Impulsive"

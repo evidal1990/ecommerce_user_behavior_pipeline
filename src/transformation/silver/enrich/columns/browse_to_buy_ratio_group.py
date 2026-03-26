@@ -14,22 +14,17 @@ class BrowseToBuyRatioGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Heavy Browser",
+            "Casual Browser",
+            "Considering Buyer",
+            "Intentional Buyer",
+            "Decisive Buyer",
+        ]
         return df.with_columns(
-            pl.col("browse_to_buy_ratio")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("browse_to_buy_ratio")
+                .qcut(quantiles=5, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        browse_to_buy_ratio: int,
-    ) -> str:
-        if browse_to_buy_ratio <= 20:
-            return "Heavy Browser"
-        elif browse_to_buy_ratio <= 40:
-            return "Casual Browser"
-        elif browse_to_buy_ratio <= 60:
-            return "Considering Buyer"
-        elif browse_to_buy_ratio <= 80:
-            return "Intentional Buyer"
-        return "Decisive Buyer"

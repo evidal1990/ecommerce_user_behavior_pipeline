@@ -14,22 +14,16 @@ class PhysicalActivityLevelGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Lightly Activity",
+            "Moderate Activity",
+            "Intense Activity",
+            "Very Intense Activity",
+        ]
         return df.with_columns(
-            pl.col("physical_activity_level")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("physical_activity_level")
+                .qcut(quantiles=4, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        physical_activity_level: int,
-    ) -> str:
-        if physical_activity_level <= 2:
-            return "Sedentary"
-        elif physical_activity_level <= 4:
-            return "Lightly Activity"
-        elif physical_activity_level <= 6:
-            return "Moderate Activity"
-        elif physical_activity_level <= 8:
-            return "Intense Activity"
-        return "Very Intense Activity"

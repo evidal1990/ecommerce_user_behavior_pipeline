@@ -135,7 +135,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Unknown",
       "Early Adopters",
       "Early Career Professionals",
       "Professional Consolidation",
@@ -148,18 +147,17 @@ columns:
     not_null: True
     required: True
     values: [
-      "Unknown",
-      "Single-person Household",
-      "Small Household (2–3)",
-      "Medium Household (4–5)",
-      "Large Household (6+)",
+      "Very Small Household",
+      "Small Household",
+      "Medium Household",
+      "Large Household",
+      "Very Large Household",
     ]
   brand_loyalty_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Unknown",
       "Detractors",
       "Neutral",
       "Promoters",
@@ -169,7 +167,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Unknown",
       "Highly Deliberate",
       "Considered Buyer",
       "Balanced Buyer",
@@ -181,7 +178,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Unknown",
       "Independent",
       "Influence-Aware",
       "Highly Influenced",
@@ -191,7 +187,7 @@ columns:
     not_null: True
     required: True
     values: [
-      "Inactive",
+      "Sedentary",
       "Lightly Active",
       "Moderately Active",
       "Highly Active",
@@ -223,7 +219,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Sedentary",
       "Lightly Activity",
       "Moderate Activity",
       "Intense Activity",
@@ -234,8 +229,7 @@ columns:
     not_null: True
     required: True
     values: [
-      "Other",
-      "Non-referrer",
+      "Rare Referrer",
       "Occasional Referrer",
       "Active Referrer",
       "Advocate",
@@ -268,7 +262,6 @@ columns:
     values: [
       "Rare Returner",
       "Occasional Returner",
-      "Moderate Returner",
       "Frequent Returner",
       "Heavy Returner",
     ]
@@ -297,7 +290,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Unresponsive",
       "Rarely Responsive",
       "Occasionally Responsive",
       "Responsive",
@@ -311,6 +303,7 @@ columns:
       "Rare Sharer",
       "Occasional Sharer",
       "Frequent Sharer",
+      "Heavy Sharer",
     ]
   cart_abandonment_rate_group:
     dtype: String
@@ -319,7 +312,6 @@ columns:
     values: [
       "Rare Abandoner",
       "Occasional Abandoner",
-      "Moderate Abandoner",
       "Frequent Abandoner",
       "Heavy Abandoner",
     ]
@@ -328,7 +320,6 @@ columns:
     not_null: True
     required: True
     values: [
-      "Non-Reviewer",
       "Rare Reviewer",
       "Occasional Contributor",
       "Active Contributor",

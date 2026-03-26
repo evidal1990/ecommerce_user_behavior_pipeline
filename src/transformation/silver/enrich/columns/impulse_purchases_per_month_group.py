@@ -14,20 +14,16 @@ class ImpulsePurchasesPerMonthGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Non-impulsive",
+            "Occasional Impulse Buyer",
+            "Moderate Impulse Buyer",
+            "Frequent Impulse Buyer",
+        ]
         return df.with_columns(
-            pl.col("impulse_purchases_per_month")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("impulse_purchases_per_month")
+                .qcut(quantiles=4, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        impulse_purchases_per_month: int,
-    ) -> str:
-        if impulse_purchases_per_month == 0:
-            return "Non-impulsive"
-        elif impulse_purchases_per_month <= 2:
-            return "Occasional Impulse Buyer"
-        elif impulse_purchases_per_month <= 5:
-            return "Moderate Impulse Buyer"
-        return "Frequent Impulse Buyer"

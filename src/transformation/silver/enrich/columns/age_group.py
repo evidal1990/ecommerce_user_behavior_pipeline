@@ -14,24 +14,20 @@ class AgeGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Early Adopters",
+            "Early Career Professionals",
+            "Professional Consolidation",
+            "High Financial Stability",
+            "Pre-Retirement",
+            "Low Digital Adoption",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("age").map_elements(self._classify).alias(self.name().lower())
+            [
+                pl.col("age")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("age_group"),
+                pl.col("age").qcut(quantiles=x_pieces).alias("age_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        age: int,
-    ) -> str:
-        if age < 18:
-            return "Unknown"
-        elif age <= 24:
-            return "Early Adopters"
-        elif age <= 34:
-            return "Early Career Professionals"
-        elif age <= 44:
-            return "Professional Consolidation"
-        elif age <= 54:
-            return "High Financial Stability"
-        elif age <= 64:
-            return "Pre-Retirement"
-        return "Low Digital Adoption"

@@ -24,8 +24,8 @@ class TransformationGoldExecutor:
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         logging.info("Transformação de dados provenientes da camada silver iniciada")
-        self.df = AggregateData().execute(df)
-        self._write_gold()
+        # self.df = AggregateData().execute(df)
+        # self._write_gold()
         logging.info("Transformação de dados provenientes da camada silver finalizada")
         return self.df
 

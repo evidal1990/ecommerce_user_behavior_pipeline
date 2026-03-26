@@ -14,22 +14,16 @@ class ReferralCountGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Rare Referrer",
+            "Occasional Referrer",
+            "Active Referrer",
+            "Advocate",
+        ]
         return df.with_columns(
-            pl.col("referral_count")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("referral_count")
+                .qcut(quantiles=4, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        referral_count: int,
-    ) -> str:
-        if referral_count < 0:
-            return "Other"
-        elif referral_count == 0:
-            return "Non-referrer"
-        elif referral_count <= 2:
-            return "Occasional Referrer"
-        elif referral_count <= 5:
-            return "Active Referrer"
-        return "Advocate"

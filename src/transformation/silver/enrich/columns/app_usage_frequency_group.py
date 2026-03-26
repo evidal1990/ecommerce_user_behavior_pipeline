@@ -14,18 +14,15 @@ class AppUsageFrequencyGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Light User",
+            "Regular User",
+            "Heavy User",
+        ]
         return df.with_columns(
-            pl.col("app_usage_frequency_per_week")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("app_usage_frequency_per_week")
+                .qcut(quantiles=3, labels=labels)
+                .alias(self.name().lower()),
+            ]
         )
-
-    def _classify(
-        self,
-        app_usage_frequency_per_week: int,
-    ) -> str:
-        if app_usage_frequency_per_week <= 1:
-            return "Light User"
-        elif app_usage_frequency_per_week <= 4:
-            return "Regular User"
-        return "Heavy User"

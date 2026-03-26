@@ -14,20 +14,19 @@ class BrandLoyaltyScoreGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
+        labels = [
+            "Detractors",
+            "Neutral",
+            "Promoters",
+        ]
+        x_pieces = len(labels)
         return df.with_columns(
-            pl.col("brand_loyalty_score")
-            .map_elements(self._classify)
-            .alias(self.name().lower())
+            [
+                pl.col("brand_loyalty_score")
+                .qcut(quantiles=x_pieces, labels=labels)
+                .alias("brand_loyalty_score_group"),
+                pl.col("brand_loyalty_score")
+                .qcut(quantiles=x_pieces)
+                .alias("brand_loyalty_score_range"),
+            ]
         )
-
-    def _classify(
-        self,
-        brand_loyalty_score: int,
-    ) -> str:
-        if brand_loyalty_score < 0:
-            return "Unknown"
-        elif brand_loyalty_score <= 6:
-            return "Detractors"
-        elif brand_loyalty_score <= 8:
-            return "Neutral"
-        return "Promoters"
