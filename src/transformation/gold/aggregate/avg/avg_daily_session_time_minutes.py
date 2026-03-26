@@ -9,6 +9,5 @@ class AvgDailySessionTimeMinutes(MedianStructure):
 
     def aggregate(
         self,
-        df: pl.DataFrame,
     ) -> pl.Expr:
-        return super().aggregate(df=df, column="daily_session_time_minutes")
+        return super().aggregate(column="daily_session_time_minutes")

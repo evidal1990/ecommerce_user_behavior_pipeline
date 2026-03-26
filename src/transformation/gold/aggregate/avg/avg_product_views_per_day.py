@@ -8,6 +8,5 @@ class AvgProductViewsPerDay(MedianStructure):
 
     def aggregate(
         self,
-        df: pl.DataFrame,
     ) -> pl.Expr:
-        return super().aggregate(df=df, column="product_views_per_day")
+        return super().aggregate(column="product_views_per_day")

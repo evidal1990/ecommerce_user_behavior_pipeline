@@ -8,6 +8,5 @@ class AvgAppUsageFrequencyPerWeek(MedianStructure):
 
     def aggregate(
         self,
-        df: pl.DataFrame,
     ) -> pl.Expr:
-        return super().aggregate(df=df, column="app_usage_frequency_per_week")
+        return super().aggregate(column="app_usage_frequency_per_week")

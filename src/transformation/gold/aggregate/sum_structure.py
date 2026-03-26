@@ -1,10 +1,10 @@
 import polars as pl
 
 
-class CountStructure:
+class SumStructure:
     def __init__(self, column: str, agg_name: str) -> None:
         self.column = column
         self.agg_name = agg_name
 
     def aggregate(self) -> pl.Expr:
-        return pl.col(self.column).count().alias(self.agg_name)
+        return pl.col(self.column).sum().alias(self.agg_name)
