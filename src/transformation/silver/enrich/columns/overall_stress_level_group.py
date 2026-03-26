@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class OverallStressLevelGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "overall_stress_level"
 
     def name(self) -> str:
-        return "OVERALL_STRESS_LEVEL_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -21,10 +21,4 @@ class OverallStressLevelGroup(EnrichStructure):
             "Stressed",
             "Highly Stressed",
         ]
-        return df.with_columns(
-            [
-                pl.col("overall_stress_level")
-                .qcut(quantiles=5, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

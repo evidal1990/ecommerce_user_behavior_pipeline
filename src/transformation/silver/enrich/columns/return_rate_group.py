@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class ReturnRateGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "return_rate"
 
     def name(self) -> str:
-        return "RETURN_RATE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class ReturnRateGroup(EnrichStructure):
             "Frequent Returner",
             "Heavy Returner",
         ]
-        return df.with_columns(
-            [
-                pl.col("return_rate")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

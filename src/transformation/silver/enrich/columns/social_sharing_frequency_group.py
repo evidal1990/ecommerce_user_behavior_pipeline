@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class SocialSharingFrequencyGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "social_sharing_frequency_per_year"
 
     def name(self) -> str:
-        return "SOCIAL_SHARING_FREQUENCY_PER_YEAR_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class SocialSharingFrequencyGroup(EnrichStructure):
             "Frequent Sharer",
             "Heavy Sharer",
         ]
-        return df.with_columns(
-            [
-                pl.col("social_sharing_frequency_per_year")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

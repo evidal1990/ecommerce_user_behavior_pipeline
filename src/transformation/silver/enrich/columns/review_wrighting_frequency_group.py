@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class ReviewWrightingFrequencyGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "review_writing_frequency_per_year"
 
     def name(self) -> str:
-        return "REVIEW_WRITING_FREQUENCY_PER_YEAR_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class ReviewWrightingFrequencyGroup(EnrichStructure):
             "Active Contributor",
             "Power Contributor",
         ]
-        return df.with_columns(
-            [
-                pl.col("review_writing_frequency_per_year")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

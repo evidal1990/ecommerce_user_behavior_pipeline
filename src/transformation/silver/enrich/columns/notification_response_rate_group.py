@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class NotificationResponseRateGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "notification_response_rate"
 
     def name(self) -> str:
-        return "NOTIFICATION_RESPONSE_RATE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class NotificationResponseRateGroup(EnrichStructure):
             "Responsive",
             "Highly Responsive",
         ]
-        return df.with_columns(
-            [
-                pl.col("notification_response_rate")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

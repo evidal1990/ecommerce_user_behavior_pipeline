@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class PhysicalActivityLevelGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "physical_activity_level"
 
     def name(self) -> str:
-        return "PHYSICAL_ACTIVITY_LEVEL_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class PhysicalActivityLevelGroup(EnrichStructure):
             "Intense Activity",
             "Very Intense Activity",
         ]
-        return df.with_columns(
-            [
-                pl.col("physical_activity_level")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

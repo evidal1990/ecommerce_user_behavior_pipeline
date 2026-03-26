@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class SocialMediaInfluenceScoreGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "social_media_influence_score"
 
     def name(self) -> str:
-        return "SOCIAL_MEDIA_INFLUENCE_SCORE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -19,14 +19,4 @@ class SocialMediaInfluenceScoreGroup(EnrichStructure):
             "Influence-Aware",
             "Highly Influenced",
         ]
-        x_pieces = len(labels)
-        return df.with_columns(
-            [
-                pl.col("social_media_influence_score")
-                .qcut(quantiles=x_pieces, labels=labels)
-                .alias("social_media_influence_score_group"),
-                pl.col("social_media_influence_score")
-                .qcut(quantiles=x_pieces)
-                .alias("social_media_influence_score_range"),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

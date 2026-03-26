@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class ImpulseBuyingScoreGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "impulse_buying_score"
 
     def name(self) -> str:
-        return "IMPULSE_BUYING_SCORE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -21,14 +21,4 @@ class ImpulseBuyingScoreGroup(EnrichStructure):
             "Impulse-Prone",
             "Highly Impulsive",
         ]
-        x_pieces = len(labels)
-        return df.with_columns(
-            [
-                pl.col("impulse_buying_score")
-                .qcut(quantiles=x_pieces, labels=labels)
-                .alias("impulse_buying_score_group"),
-                pl.col("impulse_buying_score")
-                .qcut(quantiles=x_pieces)
-                .alias("impulse_buying_score_range"),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

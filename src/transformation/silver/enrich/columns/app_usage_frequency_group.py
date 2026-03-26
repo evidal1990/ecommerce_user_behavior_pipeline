@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class AppUsageFrequencyGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "app_usage_frequency_per_week"
 
     def name(self) -> str:
-        return "APP_USAGE_FREQUENCY_PER_WEEK_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -19,10 +19,4 @@ class AppUsageFrequencyGroup(EnrichStructure):
             "Regular User",
             "Heavy User",
         ]
-        return df.with_columns(
-            [
-                pl.col("app_usage_frequency_per_week")
-                .qcut(quantiles=3, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

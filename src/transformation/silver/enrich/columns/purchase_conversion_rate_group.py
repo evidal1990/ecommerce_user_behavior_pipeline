@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class PurchaseConversionRateGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "purchase_conversion_rate"
 
     def name(self) -> str:
-        return "PURCHASE_CONVERSION_RATE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -21,10 +21,4 @@ class PurchaseConversionRateGroup(EnrichStructure):
             "Frequent Buyer",
             "Power Buyer",
         ]
-        return df.with_columns(
-            [
-                pl.col("purchase_conversion_rate")
-                .qcut(quantiles=5, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

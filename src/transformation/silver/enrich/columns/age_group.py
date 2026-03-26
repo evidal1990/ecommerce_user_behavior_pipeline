@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class AgeGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "age"
 
     def name(self) -> str:
-        return "AGE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -22,12 +22,4 @@ class AgeGroup(EnrichStructure):
             "Pre-Retirement",
             "Low Digital Adoption",
         ]
-        x_pieces = len(labels)
-        return df.with_columns(
-            [
-                pl.col("age")
-                .qcut(quantiles=x_pieces, labels=labels)
-                .alias("age_group"),
-                pl.col("age").qcut(quantiles=x_pieces).alias("age_range"),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

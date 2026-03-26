@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class BrowseToBuyRatioGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "browse_to_buy_ratio"
 
     def name(self) -> str:
-        return "BROWSE_TO_BUY_RATIO_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -21,10 +21,4 @@ class BrowseToBuyRatioGroup(EnrichStructure):
             "Intentional Buyer",
             "Decisive Buyer",
         ]
-        return df.with_columns(
-            [
-                pl.col("browse_to_buy_ratio")
-                .qcut(quantiles=5, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

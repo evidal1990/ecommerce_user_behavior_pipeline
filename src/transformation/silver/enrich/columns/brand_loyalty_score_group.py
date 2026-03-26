@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class BrandLoyaltyScoreGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "brand_loyalty_score"
 
     def name(self) -> str:
-        return "BRAND_LOYALTY_SCORE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -19,14 +19,4 @@ class BrandLoyaltyScoreGroup(EnrichStructure):
             "Neutral",
             "Promoters",
         ]
-        x_pieces = len(labels)
-        return df.with_columns(
-            [
-                pl.col("brand_loyalty_score")
-                .qcut(quantiles=x_pieces, labels=labels)
-                .alias("brand_loyalty_score_group"),
-                pl.col("brand_loyalty_score")
-                .qcut(quantiles=x_pieces)
-                .alias("brand_loyalty_score_range"),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

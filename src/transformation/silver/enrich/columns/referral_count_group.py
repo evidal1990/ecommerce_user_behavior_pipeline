@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class ReferralCountGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "referral_count"
 
     def name(self) -> str:
-        return "REFERRAL_COUNT_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class ReferralCountGroup(EnrichStructure):
             "Active Referrer",
             "Advocate",
         ]
-        return df.with_columns(
-            [
-                pl.col("referral_count")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)

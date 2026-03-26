@@ -5,10 +5,10 @@ from src.transformation.silver.enrich.enrich_structure import EnrichStructure
 class CartAbandonmentRateGroup(EnrichStructure):
 
     def __init__(self) -> None:
-        pass
+        self.column = "cart_abandonment_rate"
 
     def name(self) -> str:
-        return "CART_ABANDONMENT_RATE_GROUP"
+        return f"{self.column.upper()}_GROUP"
 
     def execute(
         self,
@@ -20,10 +20,4 @@ class CartAbandonmentRateGroup(EnrichStructure):
             "Frequent Abandoner",
             "Heavy Abandoner",
         ]
-        return df.with_columns(
-            [
-                pl.col("cart_abandonment_rate")
-                .qcut(quantiles=4, labels=labels)
-                .alias(self.name().lower()),
-            ]
-        )
+        return super().aggregate(df=df, column=self.column, labels=labels)
