@@ -8,4 +8,4 @@ class MedianStructure:
     def aggregate(
         self,
     ) -> pl.Expr:
-        return pl.col(self.column).median().alias(f"avg_{self.column}")
+        return pl.col(self.column).median().round(2).alias(f"avg_{self.column}")

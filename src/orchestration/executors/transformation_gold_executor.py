@@ -23,12 +23,12 @@ class TransformationGoldExecutor:
     ) -> pl.DataFrame:
         logging.info("Transformação de dados provenientes da camada silver iniciada")
         self.df = AggregateData().execute(df)
-        self._write_gold()
+        self._write_gold_aggregations()
         logging.info("Transformação de dados provenientes da camada silver finalizada")
         return self.df
 
-    def _write_gold(self) -> None:
-        path = self._settings["destination"]
+    def _write_gold_aggregations(self) -> None:
+        path = self._settings["destination"]["aggregations"]
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.df.write_csv(path)
         #self.df.write_parquet(path, compression="zstd", statistics=True)
