@@ -5,7 +5,9 @@ from .kpis.descriptive.users_by_country import PercentageUsersByCountry
 from .kpis.descriptive.users_by_urban_rural import PercentageUsersByUrbanRural
 from .kpis.descriptive.users_by_annual_income import PercentageUsersByAnnualIncome
 from .kpis.descriptive.users_by_education_level import PercentageUsersByEducationLevel
-from .kpis.descriptive.users_by_employment_status import PercentageUsersByEmploymentStatus
+from .kpis.descriptive.users_by_employment_status import (
+    PercentageUsersByEmploymentStatus,
+)
 from .kpis.descriptive.users_by_device_type import PercentageUsersByDeviceType
 from .kpis.descriptive.users_by_has_children import PercentageUsersByHasChildren
 
@@ -13,13 +15,15 @@ from .kpis.descriptive.users_by_has_children import PercentageUsersByHasChildren
 class CreateMetrics:
 
     def __init__(self) -> None:
-        self.df = None
+        pass
 
     def execute(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         kpis = []
+
+        # Descriptive
         kpis.append(PercentageUsersByAgeGroup().calculate(df=df))
         kpis.append(PercentageUsersByGender().calculate(df=df))
         kpis.append(PercentageUsersByCountry().calculate(df=df))
@@ -29,5 +33,11 @@ class CreateMetrics:
         kpis.append(PercentageUsersByEmploymentStatus().calculate(df=df))
         kpis.append(PercentageUsersByDeviceType().calculate(df=df))
         kpis.append(PercentageUsersByHasChildren().calculate(df=df))
+
+        # Behavioural
+
+        # Operational
+
+        # Strategic
 
         return pl.concat(kpis)
