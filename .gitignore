@@ -209,6 +209,7 @@ __marimo__/
 
 credentials/*.json
 data/*/*.csv
+data/*/*.parquet
 tests/data/*.csv
 tests/data/*.yaml
 tests/results/*.csv
