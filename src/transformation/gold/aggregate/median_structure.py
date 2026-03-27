@@ -2,11 +2,10 @@ import polars as pl
 
 
 class MedianStructure:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, column: str) -> None:
+        self.column = column
 
     def aggregate(
         self,
-        column: str,
     ) -> pl.Expr:
-        return pl.col(column).median().alias(f"avg_{column}")
+        return pl.col(self.column).median().alias(f"avg_{self.column}")

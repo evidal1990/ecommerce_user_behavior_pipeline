@@ -1,12 +1,6 @@
-import polars as pl
 from src.transformation.gold.aggregate.median_structure import MedianStructure
 
 
 class AvgAppUsageFrequencyPerWeek(MedianStructure):
     def __init__(self) -> None:
-        pass
-
-    def aggregate(
-        self,
-    ) -> pl.Expr:
-        return super().aggregate(column="app_usage_frequency_per_week")
+        super().__init__(column="app_usage_frequency_per_week")
