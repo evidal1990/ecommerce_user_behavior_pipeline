@@ -1,6 +1,6 @@
-from src.transformation.gold.metrics.percentage_structure import PercentageStructure
+from src.transformation.gold.metrics.strcutures.by_column_structure import ByColumnStructure
 
 
-class PercentageUsersByEducationLevel(PercentageStructure):
+class PercentageUsersByEducationLevel(ByColumnStructure):
     def __init__(self) -> None:
-        super().__init__(column="education_level")
+        super().__init__(columns=["education_level"])

@@ -1,6 +1,7 @@
-from src.transformation.gold.metrics.percentage_structure import PercentageStructure
+from polars import col
+from src.transformation.gold.metrics.strcutures.by_column_structure import ByColumnStructure
 
 
-class PercentageUsersByGender(PercentageStructure):
+class PercentageUsersByGender(ByColumnStructure):
     def __init__(self) -> None:
-        super().__init__(column="gender")
+        super().__init__(columns=["gender"])

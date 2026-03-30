@@ -1,6 +1,6 @@
-from src.transformation.gold.metrics.percentage_structure import PercentageStructure
+from src.transformation.gold.metrics.strcutures.by_column_structure import ByColumnStructure
 
 
-class PercentageUsersByUrbanRural(PercentageStructure):
+class PercentageUsersByUrbanRural(ByColumnStructure):
     def __init__(self) -> None:
-        super().__init__(column="urban_rural")
+        super().__init__(columns=["urban_rural"])

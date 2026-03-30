@@ -11,12 +11,12 @@ from src.transformation.gold.metrics.kpis.descriptive import (
     PercentageUsersByHasChildren,
 )
 
-from src.transformation.gold.metrics.kpis.behavioral import (
-    PremiumSubscriptionAdoption,
+from src.transformation.gold.metrics.kpis.descriptive import (
+    PercentageUsersByPremiumSubscription,
 )
 
 
-class CreateMetrics:
+class CreateDescriptiveKpis:
 
     def __init__(self) -> None:
         self.kpis = [
@@ -29,11 +29,11 @@ class CreateMetrics:
             PercentageUsersByEmploymentStatus(),
             PercentageUsersByDeviceType(),
             PercentageUsersByHasChildren(),
-            PremiumSubscriptionAdoption(),
+            PercentageUsersByPremiumSubscription(),
         ]
 
     def execute(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return pl.concat([kpi.calculate(df) for kpi in self.kpis])
+        return pl.concat(kpi.calculate(df) for kpi in self.kpis)

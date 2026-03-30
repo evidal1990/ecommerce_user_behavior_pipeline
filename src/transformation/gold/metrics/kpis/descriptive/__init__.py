@@ -9,6 +9,7 @@ from .users_by_employment_status import (
 )
 from .users_by_device_type import PercentageUsersByDeviceType
 from .users_by_has_children import PercentageUsersByHasChildren
+from .users_by_premium_subscritption import PercentageUsersByPremiumSubscription
 
 __all__ = [
     "PercentageUsersByAgeGroup",
@@ -20,4 +21,5 @@ __all__ = [
     "PercentageUsersByEmploymentStatus",
     "PercentageUsersByDeviceType",
     "PercentageUsersByHasChildren",
+    "PercentageUsersByPremiumSubscription",
 ]

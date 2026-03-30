@@ -1,12 +1,12 @@
 import polars as pl
 
 
-class PercentageStructure:
+class ByColumnStructure:
     def __init__(
         self,
-        column: str,
+        columns: list[str],
     ) -> None:
-        self.column = column
+        self.columns = columns
 
     def calculate(
         self,
@@ -20,18 +20,21 @@ class PercentageStructure:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return df.group_by(self.column).agg(
-            (pl.count() * 100 / df.height).round(2).alias("percentage")
+        total = df.height
+        return df.group_by(self.columns).agg(
+            (pl.count() * 100 / total).round(2).alias("percentage")
         )
 
     def _add_dimension_and_value(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
+        main_col = self.columns[0]
+
         return df.with_columns(
             [
-                pl.lit(self.column).cast(pl.Utf8).alias("dimension"),
-                pl.col(self.column).cast(pl.Utf8).alias("value"),
+                pl.lit(main_col).alias("dimension"),
+                pl.col(main_col).cast(pl.Utf8).alias("value"),
             ]
         )
 
@@ -39,4 +42,7 @@ class PercentageStructure:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return df.select(["dimension", "value", "percentage"])
+        main_cols = ["dimension", "value"]
+        other_cols = self.columns[1:]
+
+        return df.select(main_cols + other_cols + ["percentage"])
