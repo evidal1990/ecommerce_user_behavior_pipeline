@@ -1,6 +1,6 @@
-from .premium_subscription_adoption_by_country import PremiumSubscriptionAdoptionByContry
+from .premium_subscription_adoption import PremiumSubscriptionAdoption
 
 __all__ = [
-    "PremiumSubscriptionAdoptionByContry",
+    "PremiumSubscriptionAdoption",
 ]
 

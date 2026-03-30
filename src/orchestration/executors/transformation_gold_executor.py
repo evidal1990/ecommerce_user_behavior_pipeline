@@ -2,7 +2,10 @@ import logging
 import polars as pl
 from pathlib import Path
 from src.transformation.gold.aggregate.aggregate_data import AggregateData
-from src.transformation.gold.metrics.create_descriptive_kpis import CreateDescriptiveKpis
+from src.transformation.gold.metrics.create_descriptive_kpis import (
+    CreateDescriptiveKpis,
+)
+from src.transformation.gold.metrics.create_behavioral_kpis import CreateBehavioralKpis
 
 
 class TransformationGoldExecutor:
@@ -25,8 +28,16 @@ class TransformationGoldExecutor:
         logging.info("Transformação de dados provenientes da camada silver iniciada")
         self.df = AggregateData().execute(df)
         self._write_gold_aggregations()
-        self.df = CreateDescriptiveKpis().execute(self.df)
-        self._write_gold_kpis()
+        kpis_descriptive = CreateDescriptiveKpis().execute(self.df)
+        self._write_gold_kpis(
+            "descriptive",
+            df=kpis_descriptive,
+        )
+        kpis_behavioral = CreateBehavioralKpis().execute(self.df)
+        self._write_gold_kpis(
+            "behavioral",
+            df=kpis_behavioral,
+        )
         logging.info("Transformação de dados provenientes da camada silver finalizada")
         return self.df
 
@@ -34,10 +45,14 @@ class TransformationGoldExecutor:
         path = self._settings["destination"]["aggregations"]
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.df.write_csv(path)
-        #self.df.write_parquet(path, compression="zstd", statistics=True)
+        # self.df.write_parquet(path, compression="zstd", statistics=True)
 
-    def _write_gold_kpis(self) -> None:
-        path = self._settings["destination"]["kpis"]
+    def _write_gold_kpis(
+        self,
+        kpi_type: str,
+        df: pl.DataFrame,
+    ) -> None:
+        path = self._settings["destination"][kpi_type]
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        self.df.write_csv(path)
-        #self.df.write_parquet(path, compression="zstd", statistics=True)
+        df.write_csv(path)
+        # self.df.write_parquet(path, compression="zstd", statistics=True)

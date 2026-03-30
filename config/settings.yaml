@@ -13,4 +13,7 @@ data:
     origin: "data/silver/data.parquet"
     destination: 
       aggregations: "data/gold/aggregations.csv"
-      kpis: "data/gold/kpis.csv"
+      descriptive: "data/gold/kpis_descriptive.csv"
+      behavioral: "data/gold/kpis_behavioral.csv"
+      operational: "data/gold/kpis_operational.csv"
+      strategical: "data/gold/kpis_strategical.csv"

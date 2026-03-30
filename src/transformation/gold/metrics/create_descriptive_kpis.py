@@ -1,4 +1,5 @@
 import polars as pl
+from .create_kpis import CreateKpis
 from src.transformation.gold.metrics.kpis.descriptive import (
     PercentageUsersByAgeGroup,
     PercentageUsersByGender,
@@ -9,31 +10,29 @@ from src.transformation.gold.metrics.kpis.descriptive import (
     PercentageUsersByEmploymentStatus,
     PercentageUsersByDeviceType,
     PercentageUsersByHasChildren,
-)
-
-from src.transformation.gold.metrics.kpis.descriptive import (
     PercentageUsersByPremiumSubscription,
 )
 
 
-class CreateDescriptiveKpis:
+class CreateDescriptiveKpis(CreateKpis):
 
     def __init__(self) -> None:
-        self.kpis = [
-            PercentageUsersByAgeGroup(),
-            PercentageUsersByGender(),
-            PercentageUsersByCountry(),
-            PercentageUsersByUrbanRural(),
-            PercentageUsersByAnnualIncome(),
-            PercentageUsersByEducationLevel(),
-            PercentageUsersByEmploymentStatus(),
-            PercentageUsersByDeviceType(),
-            PercentageUsersByHasChildren(),
-            PercentageUsersByPremiumSubscription(),
-        ]
-
-    def execute(
-        self,
-        df: pl.DataFrame,
-    ) -> pl.DataFrame:
-        return pl.concat(kpi.calculate(df) for kpi in self.kpis)
+        super().__init__(
+            standard_columns=[
+                "dimension",
+                "value",
+                "percentage",
+            ],
+            kpis=[
+                PercentageUsersByAgeGroup(),
+                PercentageUsersByGender(),
+                PercentageUsersByCountry(),
+                PercentageUsersByUrbanRural(),
+                PercentageUsersByAnnualIncome(),
+                PercentageUsersByEducationLevel(),
+                PercentageUsersByEmploymentStatus(),
+                PercentageUsersByDeviceType(),
+                PercentageUsersByHasChildren(),
+                PercentageUsersByPremiumSubscription(),
+            ],
+        )
