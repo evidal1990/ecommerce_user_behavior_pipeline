@@ -19,6 +19,33 @@ class CreateKpis:
         return pl.concat(
             [self._standardize_schema(kpi.calculate(df)) for kpi in self.kpis]
         )
+    
+    def build_kpis(self, configs: list) -> list:
+        kpis = []
+
+        for cfg in configs:
+            kpi_class = cfg["class"]
+            dimension = cfg["dimension"]
+            group_by_list = cfg["group_by"]
+
+            if not group_by_list:
+                kpis.append(
+                    kpi_class(
+                        dimension=dimension,
+                        group_by=[],
+                    )
+                )
+                continue
+
+            for group in group_by_list:
+                kpis.append(
+                    kpi_class(
+                        dimension=dimension,
+                        group_by=[group],
+                    )
+                )
+
+        return kpis
 
     def _standardize_schema(
         self,

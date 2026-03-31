@@ -5,13 +5,14 @@ from src.transformation.gold.metrics.strcutures.base_structure import BaseStruct
 class PercentageUsersByEmploymentStatus(BaseStructure):
     def __init__(
         self,
-        segment_by: list[str] = [],
+        dimension:str,
+        group_by: list[str] = [],
     ) -> None:
         super().__init__(
             metric="users_by_employment_status",
             metric_type="percentage",
-            dimension_col="employment_status",
-            group_cols=segment_by,
+            dimension_col=dimension,
+            group_cols=group_by,
         )
 
     def calculate(
