@@ -5,6 +5,7 @@ from src.transformation.gold.metrics.kpis.behavioral import (
     AvgAppUsageFrequency,
     AvgProductViewsPerDay,
     PreferredProductCategory,
+    PreferredPaymentMethod,
 )
 from .create_kpis import CreateKpis
 
@@ -90,6 +91,17 @@ class CreateBehavioralKpis(CreateKpis):
                             "country",
                             "age_group",
                             "device_type",
+                        ],
+                    },
+                    {
+                        "class": PreferredPaymentMethod,
+                        "dimension": "preferred_payment_method",
+                        "group_by": [
+                            "country",
+                            "age_group",
+                            "annual_income_group",
+                            "device_type",
+                            "cart_abandonment_rate_group"
                         ],
                     },
                 ]

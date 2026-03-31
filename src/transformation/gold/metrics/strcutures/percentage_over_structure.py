@@ -30,8 +30,8 @@ class PercentageOverStructure(BaseStructure):
     def _aggregate(
         self,
         df: pl.DataFrame,
-    ) -> pl.DataFrame:
-        return df.group_by(self.group_cols + [self.dimension_col]).agg(
+    ) -> int:
+        return df.group_by(self.all_group_cols).agg(
             pl.col("count_users").sum().alias("count_users")
         )
 
@@ -41,8 +41,8 @@ class PercentageOverStructure(BaseStructure):
     ) -> pl.DataFrame:
         return df.with_columns(
             (
-                pl.col("count_users").cast(pl.Float64)
-                / pl.col("count_users").sum().over(self.group_cols)
+                pl.col("count_users")
+                / pl.col("count_users").sum().over(self.dimension_col)
                 * 100
             )
             .round(2)
