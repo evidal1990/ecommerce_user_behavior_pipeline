@@ -29,52 +29,52 @@ class CreateDescriptiveKpis(CreateKpis):
                 [
                     {
                         "class": PercentageUsersByAgeGroup,
-                        "dimension": "age_group",
+                        "dimensions": ["age_group"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByGender,
-                        "dimension": "gender",
+                        "dimensions": ["gender"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByCountry,
-                        "dimension": "country",
+                        "dimensions": ["country"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByUrbanRural,
-                        "dimension": "urban_rural",
+                        "dimensions": ["urban_rural"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByAnnualIncome,
-                        "dimension": "annual_income_group",
+                        "dimensions": ["annual_income_group"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByEducationLevel,
-                        "dimension": "education_level",
+                        "dimensions": ["education_level"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByEmploymentStatus,
-                        "dimension": "employment_status",
+                        "dimensions": ["employment_status"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByDeviceType,
-                        "dimension": "device_type",
+                        "dimensions": ["device_type"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByHasChildren,
-                        "dimension": "has_children_group",
+                        "dimensions": ["has_children_group"],
                         "group_by": [],
                     },
                     {
                         "class": PercentageUsersByPremiumSubscription,
-                        "dimension": "premium_subscription_group",
+                        "dimensions": ["premium_subscription_group"],
                         "group_by": [],
                     },
                 ]

@@ -62,6 +62,8 @@ class AggregateData:
             "has_children_group",
             "premium_subscription_group",
             "product_category_preference",
+            "social_sharing_frequency_per_year_group",
+            "last_purchase_date",
         ]
         agg_result = []
         # Count
