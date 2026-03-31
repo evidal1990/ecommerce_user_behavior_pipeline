@@ -32,7 +32,6 @@ class BaseStructure:
     ) -> pl.DataFrame:
         return df
 
-    # ✔️ RATE (média de variável binária)
     def _calculate_rate(
         self,
         df: pl.DataFrame,
@@ -49,11 +48,10 @@ class BaseStructure:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        total = df.height
-        return (
-            df.group_by(self.all_group_cols)
-            .agg(((pl.count() / total) * 100).round(2).alias("metric_value"))
-            .sort(by=self.all_group_cols)
+        total = df.select(pl.col("count_users").sum()).item()
+
+        return df.group_by(self.all_group_cols).agg(
+            (pl.col("count_users").sum() / total * 100).round(2).alias("metric_value")
         )
 
     # ✔️ MÉDIA (valor contínuo)
@@ -62,13 +60,15 @@ class BaseStructure:
         df: pl.DataFrame,
         column: str,
     ) -> pl.DataFrame:
-        return (
-            df.group_by(self.all_group_cols)
-            .agg(pl.col(column).mean().round(2).alias("metric_value"))
-            .sort(by=self.all_group_cols)
+        return df.group_by(self.all_group_cols).agg(
+            pl.col(column)
+            .mul(pl.col("count_users"))
+            .sum()
+            .truediv(pl.col("count_users").sum())
+            .round(2)
+            .alias("metric_value")
         )
 
-    # ✔️ COUNT (opcional, já preparando evolução)
     def _calculate_count(
         self,
         df: pl.DataFrame,
