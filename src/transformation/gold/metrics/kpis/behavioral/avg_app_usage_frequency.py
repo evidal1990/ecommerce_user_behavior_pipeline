@@ -1,38 +1,18 @@
-from google_crc32c import value
 import polars as pl
-from src.transformation.gold.metrics.strcutures.base_structure import (
-    BaseStructure,
+from src.transformation.gold.metrics.strcutures.avg_structure import (
+    AvgStructure,
 )
 
 
-class AvgAppUsageFrequency(BaseStructure):
+class AvgAppUsageFrequency(AvgStructure):
     def __init__(
         self,
-        dimension_col: str,
-        segment_by: list[str] = [],
+        dimension: str,
+        group_by: list[str] = [],
     ) -> None:
         super().__init__(
-            metric="avg_app_usage_frequency_in_days",
-            metric_type="average",
-            dimension_col=dimension_col,
-            group_cols=segment_by,
-        )
-
-    def calculate(
-        self,
-        df: pl.DataFrame,
-    ) -> pl.DataFrame:
-        df = self._apply_filter(df)
-
-        result = self._calculate_average(
-            df,
+            metric="avg_app_usage_frequency_per_week_in_days",
             column="avg_app_usage_frequency_per_week",
+            dimension_col=dimension,
+            group_cols=group_by,
         )
-
-        return self._finalize_output(result)
-
-    def _apply_filter(
-        self,
-        df: pl.DataFrame,
-    ) -> pl.Expr:
-        return super()._apply_filter(df)
