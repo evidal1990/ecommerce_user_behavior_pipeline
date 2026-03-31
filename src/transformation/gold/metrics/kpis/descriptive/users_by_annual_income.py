@@ -1,6 +1,23 @@
-from src.transformation.gold.metrics.strcutures.by_column_structure import ByColumnStructure
+import polars as pl
+from src.transformation.gold.metrics.strcutures.base_structure import BaseStructure
 
 
-class PercentageUsersByAnnualIncome(ByColumnStructure):
-    def __init__(self) -> None:
-        super().__init__(columns=["annual_income_group"])
+class PercentageUsersByAnnualIncome(BaseStructure):
+    def __init__(
+        self,
+        segment_by: list[str] = [],
+    ) -> None:
+        super().__init__(
+            metric="users_by_annual_income",
+            metric_type="percentage",
+            dimension_col="annual_income_group",
+            group_cols=segment_by,
+        )
+
+    def calculate(
+        self,
+        df: pl.DataFrame,
+    ) -> pl.DataFrame:
+        df = self._apply_filter(df)
+        result = self._calculate_percentage(df)
+        return self._finalize_output(result)

@@ -19,9 +19,11 @@ class CreateDescriptiveKpis(CreateKpis):
     def __init__(self) -> None:
         super().__init__(
             standard_columns=[
+                "metric",
+                "metric_type",
                 "dimension",
                 "value",
-                "percentage",
+                "metric_value",
             ],
             kpis=[
                 PercentageUsersByAgeGroup(),

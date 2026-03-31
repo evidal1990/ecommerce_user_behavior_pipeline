@@ -1,12 +1,17 @@
+from abc import abstractmethod
 import polars as pl
 
 
 class BaseStructure:
     def __init__(
         self,
+        metric: str,
+        metric_type: str,
         dimension_col: str,
         group_cols: list[str] | None = None,
     ) -> None:
+        self.metric = metric
+        self.metric_type = metric_type
         self.dimension_col = dimension_col
         self.group_cols = group_cols or []
 
@@ -14,53 +19,85 @@ class BaseStructure:
     def all_group_cols(self) -> list[str]:
         return [self.dimension_col] + self.group_cols
 
+    @abstractmethod
     def calculate(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        df_filtered = self._apply_filter(df)
-        df_agg = self._calculate_percentage(df_filtered, df_filtered.height)
-        df_enriched = self._add_dimension_and_value(df_agg)
-        return self._format_output(df_enriched)
+        pass
 
-    # 🔥 HOOK METHOD (sobrescrito pelas filhas)
     def _apply_filter(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        return df  # padrão: sem filtro
+        return df
+
+    # ✔️ RATE (média de variável binária)
+    def _calculate_rate(
+        self,
+        df: pl.DataFrame,
+        condition: pl.Expr,
+    ) -> pl.DataFrame:
+        return (
+            df.with_columns(condition.cast(pl.Int8).alias("metric_value"))
+            .group_by(self.all_group_cols)
+            .agg(pl.col("metric_value").mean().round(2))
+            .sort(by=self.all_group_cols)
+        )
 
     def _calculate_percentage(
         self,
         df: pl.DataFrame,
-        total: int,
     ) -> pl.DataFrame:
-        return df.group_by(self.all_group_cols).agg(
-            (pl.count() * 100 / total).round(2).alias("percentage")
-        ).sort(by=self.all_group_cols)
+        total = df.height
+        return (
+            df.group_by(self.all_group_cols)
+            .agg(((pl.count() / total) * 100).round(2).alias("metric_value"))
+            .sort(by=self.all_group_cols)
+        )
 
-    def _add_dimension_and_value(
+    # ✔️ MÉDIA (valor contínuo)
+    def _calculate_average(
+        self,
+        df: pl.DataFrame,
+        column: str,
+    ) -> pl.DataFrame:
+        return (
+            df.group_by(self.all_group_cols)
+            .agg(pl.col(column).mean().round(2).alias("metric_value"))
+            .sort(by=self.all_group_cols)
+        )
+
+    # ✔️ COUNT (opcional, já preparando evolução)
+    def _calculate_count(
+        self,
+        df: pl.DataFrame,
+    ) -> pl.DataFrame:
+        return (
+            df.group_by(self.all_group_cols)
+            .agg(pl.count().alias("metric_value"))
+            .sort(by=self.all_group_cols)
+        )
+
+    # ✔️ PADRONIZAÇÃO FINAL (único ponto de formatação)
+    def _finalize_output(
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         return df.with_columns(
             [
+                pl.lit(self.metric).alias("metric"),
+                pl.lit(self.metric_type).alias("metric_type"),
                 pl.lit(self.dimension_col).alias("dimension"),
                 pl.col(self.dimension_col).cast(pl.Utf8).alias("value"),
             ]
+        ).select(
+            [
+                "metric",
+                "metric_type",
+                "dimension",
+                "value",
+                *self.group_cols,
+                "metric_value",
+            ]
         )
-
-    def _format_output(
-        self,
-        df: pl.DataFrame,
-    ) -> pl.DataFrame:
-        main_cols = ["dimension", "value"]
-        other_cols = self.group_cols
-
-        expected_cols = main_cols + other_cols + ["percentage"]
-
-        for col in expected_cols:
-            if col not in df.columns:
-                df = df.with_columns(pl.lit("All").alias(col))
-
-        return df.select(expected_cols)

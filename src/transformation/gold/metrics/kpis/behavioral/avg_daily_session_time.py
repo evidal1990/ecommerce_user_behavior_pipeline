@@ -1,19 +1,20 @@
+from google_crc32c import value
 import polars as pl
 from src.transformation.gold.metrics.strcutures.base_structure import (
     BaseStructure,
 )
 
 
-class PremiumSubscriptionAdoption(BaseStructure):
+class AvgDailySessionTime(BaseStructure):
     def __init__(
         self,
-        segment_by: list[str],
+        dimension_col: str,
+        segment_by: list[str]=[],
     ) -> None:
-        self.dimension_col = "premium_subscription_group"
         super().__init__(
-            metric="premium_adoption",
-            metric_type="percentage",
-            dimension_col=self.dimension_col,
+            metric="avg_daily_session_time_in_mninutes",
+            metric_type="average",
+            dimension_col=dimension_col,
             group_cols=segment_by,
         )
 
@@ -23,7 +24,10 @@ class PremiumSubscriptionAdoption(BaseStructure):
     ) -> pl.DataFrame:
         df = self._apply_filter(df)
 
-        result = self._calculate_percentage(df)
+        result = self._calculate_average(
+            df,
+            column="avg_daily_session_time_minutes",
+        )
 
         return self._finalize_output(result)
 
@@ -31,4 +35,4 @@ class PremiumSubscriptionAdoption(BaseStructure):
         self,
         df: pl.DataFrame,
     ) -> pl.Expr:
-        return df.filter(pl.col(self.dimension_col) == "Yes")
+        return super()._apply_filter(df)

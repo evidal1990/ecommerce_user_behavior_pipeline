@@ -26,15 +26,16 @@ class CreateKpis:
     ) -> pl.DataFrame:
         for col in self.standard_columns:
             if col not in df.columns:
-                df = df.with_columns(pl.lit("All").cast(pl.Utf8).alias(col))
+                default_value = None if col == "metric_value" else "All"
+                df = df.with_columns(pl.lit(default_value).alias(col))
 
         df = df.with_columns(
             [
                 pl.col(col).cast(pl.Utf8)
                 for col in self.standard_columns
-                if col != "percentage"
+                if col != "metric_value"
             ]
-            + [pl.col("percentage").cast(pl.Float64)]
+            + [pl.col("metric_value").cast(pl.Float64)]
         )
 
         return df.select(self.standard_columns)
