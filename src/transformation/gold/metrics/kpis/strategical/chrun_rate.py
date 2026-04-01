@@ -1,4 +1,3 @@
-import time
 import polars as pl
 from datetime import datetime, timedelta
 from src.transformation.gold.metrics.strcutures.percentage_structure import (

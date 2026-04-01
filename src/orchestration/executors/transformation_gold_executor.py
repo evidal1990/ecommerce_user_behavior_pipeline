@@ -2,10 +2,12 @@ import logging
 import polars as pl
 from pathlib import Path
 from src.transformation.gold.aggregate.aggregate_data import AggregateData
-from src.transformation.gold.metrics.create_descriptive_kpis import (
+from src.transformation.gold.metrics import (
     CreateDescriptiveKpis,
+    CreateBehavioralKpis,
+    CreateOperationalKpis,
+    CreateStrategicalKpis,
 )
-from src.transformation.gold.metrics.create_behavioral_kpis import CreateBehavioralKpis
 
 
 class TransformationGoldExecutor:
@@ -37,6 +39,16 @@ class TransformationGoldExecutor:
         self._write_gold_kpis(
             "behavioral",
             df=kpis_behavioral,
+        )
+        kpis_operational = CreateOperationalKpis().execute(self.df)
+        self._write_gold_kpis(
+            "operational",
+            df=kpis_operational,
+        )
+        kpis_strategical = CreateStrategicalKpis().execute(self.df)
+        self._write_gold_kpis(
+            "strategical",
+            df=kpis_strategical,
         )
         logging.info("Transformação de dados provenientes da camada silver finalizada")
         return self.df
