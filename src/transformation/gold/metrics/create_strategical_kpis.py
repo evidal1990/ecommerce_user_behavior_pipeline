@@ -3,6 +3,7 @@ from src.transformation.gold.metrics.kpis.strategical import (
     AvgCartAbandonmentRate,
     ChurnRate,
     DailyActiveUsers,
+    NetPromoterScore,
 )
 from .create_kpis import CreateKpis
 
@@ -80,20 +81,20 @@ class CreateStrategicalKpis(CreateKpis):
                         ],
                         "group_by": [],
                     },
-                    # {
-                    #     "class": NetPromoterScore,
-                    #     "dimensions": [
-                    #         "brand_loyalty_score_group",
-                    #     ],
-                    #     "group_by": [
-                    #         "country",
-                    #         "age_group",
-                    #         "purchase_conversion_rate_group",
-                    #         "browse_to_buy_ratio_group",
-                    #         "impulse_buying_score_group",
-                    #         "return_rate_group",
-                    #     ],
-                    # },
+                    {
+                        "class": NetPromoterScore,
+                        "dimensions": [
+                            "brand_loyalty_score_group",
+                        ],
+                        "group_by": [
+                            "country",
+                            "age_group",
+                            "purchase_conversion_rate_group",
+                            "browse_to_buy_ratio_group",
+                            "impulse_buying_score_group",
+                            "return_rate_group",
+                        ],
+                    },
                 ]
             ),
         )

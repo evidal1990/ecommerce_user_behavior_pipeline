@@ -26,6 +26,7 @@ class NetPromoterScore(BaseStructure):
             df=df,
         )
         df_nps = self.apply_nps_formula(df_agg)
+        df_nps = df_nps.with_columns(pl.lit("All").alias(self.dimension_col))
         return self._finalize_output(df_nps)
 
     def build_condition_counts(
@@ -80,24 +81,3 @@ class NetPromoterScore(BaseStructure):
             (((nps_ratio + 1) / 2) * 100).round(2).alias("metric_value")
         )
 
-    def _finalize_output(
-        self,
-        df: pl.DataFrame,
-    ) -> pl.DataFrame:
-        return df.with_columns(
-            [
-                pl.lit(self.metric).alias("metric"),
-                pl.lit(self.metric_type).alias("metric_type"),
-                pl.lit(self.dimension_col).alias("dimension"),
-                pl.lit("All").alias("value"),
-            ]
-        ).select(
-            [
-                "metric",
-                "metric_type",
-                "dimension",
-                "value",
-                *self.group_cols,
-                "metric_value",
-            ]
-        )
