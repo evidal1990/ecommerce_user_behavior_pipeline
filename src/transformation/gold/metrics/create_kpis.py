@@ -10,6 +10,15 @@ class CreateKpis:
     ) -> None:
         self.kpis = kpis
         self.standard_columns = standard_columns
+        self.output_columns = [
+            "kpi_name",
+            "kpi_type",
+            "dimension_name",
+            "dimension_value",
+            "kpi_value",
+            "dimensions",
+            "reference_date",
+        ]
 
     def execute(
         self,
@@ -51,8 +60,6 @@ class CreateKpis:
                     continue
 
                 for group in group_by_list:
-
-                    # 🔥 aqui está o ponto crítico
                     if isinstance(group, list):
                         group_cols = group  # já é lista válida
                     else:
@@ -71,18 +78,18 @@ class CreateKpis:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
-        for col in self.standard_columns:
+        for col in self.output_columns:
             if col not in df.columns:
-                default_value = None if col == "metric_value" else "All"
+                default_value = "{}" if col == "dimensions" else None
                 df = df.with_columns(pl.lit(default_value).alias(col))
 
         df = df.with_columns(
             [
                 pl.col(col).cast(pl.Utf8)
-                for col in self.standard_columns
-                if col != "metric_value"
+                for col in self.output_columns
+                if col != "kpi_value"
             ]
-            + [pl.col("metric_value").cast(pl.Float64)]
+            + [pl.col("kpi_value").cast(pl.Float64)]
         )
 
-        return df.select(self.standard_columns)
+        return df.select(self.output_columns)

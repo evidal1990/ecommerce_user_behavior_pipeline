@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from datetime import date
 import polars as pl
 
 
@@ -36,20 +37,38 @@ class BaseStructure:
         self,
         df: pl.DataFrame,
     ) -> pl.DataFrame:
+        dimension_cols = [
+            col for col in self.group_cols if col != "reference_date" and col in df.columns
+        ]
+        reference_date_expr = (
+            pl.col("reference_date").cast(pl.Utf8)
+            if "reference_date" in df.columns
+            else pl.lit(date.today().isoformat(), dtype=pl.Utf8)
+        )
+        dimensions_expr = (
+            pl.struct([pl.col(col) for col in dimension_cols]).struct.json_encode()
+            if dimension_cols
+            else pl.lit("{}")
+        )
+
         return df.with_columns(
             [
-                pl.lit(self.metric).alias("metric"),
-                pl.lit(self.metric_type).alias("metric_type"),
-                pl.lit(self.dimension_col).alias("dimension"),
-                pl.col(self.dimension_col).cast(pl.Utf8).alias("value"),
+                pl.lit(self.metric).alias("kpi_name"),
+                pl.lit(self.metric_type).alias("kpi_type"),
+                pl.lit(self.dimension_col).alias("dimension_name"),
+                pl.col(self.dimension_col).cast(pl.Utf8).alias("dimension_value"),
+                pl.col("metric_value").alias("kpi_value"),
+                dimensions_expr.alias("dimensions"),
+                reference_date_expr.alias("reference_date"),
             ]
         ).select(
             [
-                "metric",
-                "metric_type",
-                "dimension",
-                "value",
-                *self.group_cols,
-                "metric_value",
+                "kpi_name",
+                "kpi_type",
+                "dimension_name",
+                "dimension_value",
+                "kpi_value",
+                "dimensions",
+                "reference_date",
             ]
         )
