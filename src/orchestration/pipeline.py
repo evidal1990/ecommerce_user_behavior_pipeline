@@ -69,6 +69,7 @@ class Pipeline:
         ).start(
             df=df_after_transformation_silver,
         )
+        logging.info("Carga Gold para Supabase iniciada (pode demorar com CSVs grandes).")
         LoadGold(
             db=SupabaseConnectionManager(),
         ).load_all(

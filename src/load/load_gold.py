@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import math
 import os
 import re
@@ -12,9 +13,12 @@ from psycopg2.extras import Json, execute_values
 
 from database.supabase import SupabaseConnectionManager
 
+logger = logging.getLogger(__name__)
+
 _IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 DEFAULT_GOLD_TABLES: dict[str, str] = {
+    "aggregations": "aggregations",
     "kpis_descriptive": "kpis",
     "kpis_behavioral": "kpis",
     "kpis_operational": "kpis",
@@ -102,9 +106,7 @@ def _build_insert_sql(
     if not update_cols:
         return f"{base} ON CONFLICT ({conflict_sql}) DO NOTHING"
     set_clause = ", ".join(f"{c} = EXCLUDED.{c}" for c in update_cols)
-    return (
-        f"{base} ON CONFLICT ({conflict_sql}) DO UPDATE SET {set_clause}"
-    )
+    return f"{base} ON CONFLICT ({conflict_sql}) DO UPDATE SET {set_clause}"
 
 
 class LoadGold:
@@ -157,13 +159,18 @@ class LoadGold:
         )
         env_constr = (os.environ.get("GOLD_KPIS_ON_CONFLICT_CONSTRAINT") or "").strip()
         self._conflict_constraint = conflict_constraint or (env_constr or None)
+        logger.info(
+            "LoadGold: gold_dir=%s stems=%s",
+            self._gold_dir.resolve(),
+            sorted(self._table_by_stem),
+        )
 
     def load_csv(
         self,
         csv_path: str | Path,
         table_name: str,
         *,
-        batch_rows: int = 100,
+        batch_rows: int = 50000,
         truncate_first: bool = False,
         upsert: bool = False,
         conflict_columns: Sequence[str] | None = None,
@@ -188,6 +195,14 @@ class LoadGold:
         path = Path(csv_path)
         if not path.is_file():
             raise FileNotFoundError(path)
+
+        logger.info(
+            "LoadGold.load_csv: início path=%s tabela=%s batch_rows=%s truncate_first=%s",
+            path.resolve(),
+            table_name,
+            batch_rows,
+            truncate_first,
+        )
 
         table_sql = _validate_identifier(table_name)
         constr = (
@@ -238,7 +253,18 @@ class LoadGold:
                     cur, insert_stmt, tuples, page_size=min(10_000, len(tuples))
                 )
                 inserted += len(tuples)
+                if inserted and inserted % 50_000 == 0:
+                    logger.info(
+                        "LoadGold.load_csv: progresso %s linhas -> %s",
+                        inserted,
+                        table_name,
+                    )
 
+        logger.info(
+            "LoadGold.load_csv: fim %s linhas inseridas em %s",
+            inserted,
+            table_name,
+        )
         return inserted
 
     def load_all(
@@ -259,12 +285,18 @@ class LoadGold:
         Por defeito ``upsert=False`` (só requer UNIQUE na base se usares ``upsert=True``).
         """
         counts: dict[str, int] = {}
+        logger.info(
+            "LoadGold.load_all: início truncate_first=%s upsert=%s",
+            truncate_first,
+            upsert,
+        )
 
         if truncate_first:
             targets = sorted(
                 {_validate_identifier(t) for t in self._table_by_stem.values()}
             )
             if targets:
+                logger.info("LoadGold.load_all: TRUNCATE em %s", targets)
                 with self._db.get_cursor() as cur:
                     for t in targets:
                         cur.execute(f"TRUNCATE TABLE {t}")
@@ -272,7 +304,19 @@ class LoadGold:
         for stem, table in sorted(self._table_by_stem.items()):
             path = self._gold_dir / f"{stem}.csv"
             if not path.is_file():
+                logger.warning(
+                    "LoadGold.load_all: CSV em falta (ignorado): %s (esperado para stem=%s -> %s)",
+                    path.resolve(),
+                    stem,
+                    table,
+                )
                 continue
+            logger.info(
+                "LoadGold.load_all: a carregar stem=%s -> tabela=%s ficheiro=%s",
+                stem,
+                table,
+                path.resolve(),
+            )
             counts[stem] = self.load_csv(
                 path,
                 table,
@@ -281,6 +325,7 @@ class LoadGold:
                 conflict_columns=conflict_columns,
                 conflict_constraint=conflict_constraint,
             )
+        logger.info("LoadGold.load_all: resumo linhas por ficheiro %s", counts)
         return counts
 
 

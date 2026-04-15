@@ -1,4 +1,5 @@
 import logging
+import sys
 from pathlib import Path
 from src.orchestration.pipeline import Pipeline
 from src.utils import file_io
@@ -18,10 +19,16 @@ def main() -> None:
     log_path = BASE_DIR / "logs" / "pipeline.log"
     log_format = "%(asctime)s | %(levelname)s | %(message)s"
 
+    log_path.parent.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
-        level=logging.INFO, format=log_format, filename=log_path, filemode="w"
+        level=logging.INFO,
+        format=log_format,
+        handlers=[
+            logging.FileHandler(log_path, mode="w", encoding="utf-8"),
+            logging.StreamHandler(sys.stderr),
+        ],
     )
-
+ 
     try:
         logging.info("Iniciando o pipeline...")
         settings = file_io.read_yaml(BASE_DIR / "config" / "settings.yaml")

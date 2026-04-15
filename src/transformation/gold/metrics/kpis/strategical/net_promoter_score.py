@@ -26,7 +26,6 @@ class NetPromoterScore(BaseStructure):
             df=df,
         )
         df_nps = self.apply_nps_formula(df_agg)
-        df_nps = df_nps.with_columns(pl.lit("All").alias(self.dimension_col))
         return self._finalize_output(df_nps)
 
     def build_condition_counts(
@@ -46,7 +45,7 @@ class NetPromoterScore(BaseStructure):
         df: pl.DataFrame,
     ) -> pl.DataFrame:
         return (
-            df.group_by(self.group_cols)
+            df.group_by(self.all_group_cols)
             .agg(
                 [
                     pl.when(pl.col("brand_loyalty_score_group") == "Promoters")

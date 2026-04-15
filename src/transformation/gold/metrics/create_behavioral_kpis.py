@@ -1,12 +1,42 @@
 from src.transformation.gold.metrics.kpis.behavioral import (
     PremiumSubscriptionAdoption,
-    AvgDailySessionTime,
-    AvgAppUsageFrequency,
-    AvgProductViewsPerDay,
     PreferredProductCategory,
     PreferredPaymentMethod,
 )
 from .create_kpis import CreateKpis
+
+COLUMNS = [
+    "gender",
+    "country",
+    "urban_rural",
+    "education_level",
+    "employment_status",
+    "device_type",
+    "preferred_payment_method",
+    "age_group",
+    "annual_income_group",
+    "household_size_group",
+    "brand_loyalty_score_group",
+    "impulse_buying_score_group",
+    "social_media_influence_score_group",
+    "stress_from_financial_decisions_level_group",
+    "referral_count_group",
+    "impulse_purchases_per_month_group",
+    "browse_to_buy_ratio_group",
+    "return_rate_group",
+    "purchase_conversion_rate_group",
+    "cart_abandonment_rate_group",
+    "app_usage_frequency_per_week_group",
+    "has_children_group",
+    "premium_subscription_group",
+    "product_category_preference",
+    "social_sharing_frequency_per_year_group",
+    "last_purchase_date",
+]
+
+
+def _columns_without(*exclude: str) -> list[str]:
+    return [c for c in COLUMNS if c not in set(exclude)]
 
 
 class CreateBehavioralKpis(CreateKpis):
@@ -18,21 +48,7 @@ class CreateBehavioralKpis(CreateKpis):
                 "metric_type",
                 "dimension",
                 "value",
-                "country",
-                "age_group",
-                "annual_income_group",
-                "education_level",
-                "device_type",
-                "cart_abandonment_rate_group",
-                "premium_subscription_group",
-                "brand_loyalty_score_group",
-                "preferred_payment_method",
-                "social_sharing_frequency_per_year_group",
-                "app_usage_frequency_per_week_group",
-                "browse_to_buy_ratio_group",
-                "stress_from_financial_decisions_level_group",
-                "return_rate_group",
-                "impulse_buying_score_group",
+                *COLUMNS,
                 "metric_value",
             ],
             kpis=self.build_kpis(
@@ -40,60 +56,23 @@ class CreateBehavioralKpis(CreateKpis):
                     {
                         "class": PremiumSubscriptionAdoption,
                         "dimensions": ["premium_subscription_group"],
-                        "group_by": [
-                            "country",
-                            "age_group",
-                            "annual_income_group",
-                            "education_level",
-                            "device_type",
-                        ],
-                    },
-                    {
-                        "class": AvgDailySessionTime,
-                        "dimensions": [
-                            "country",
-                            "age_group",
-                            "device_type",
-                        ],
-                        "group_by": [],
-                    },
-                    {
-                        "class": AvgAppUsageFrequency,
-                        "dimensions": [
-                            "country",
-                            "age_group",
-                            "device_type",
-                        ],
-                        "group_by": [],
-                    },
-                    {
-                        "class": AvgProductViewsPerDay,
-                        "dimensions": [
-                            "country",
-                            "age_group",
-                            "device_type",
-                        ],
-                        "group_by": [],
+                        "group_by": _columns_without(
+                            "premium_subscription_group",
+                        ),
                     },
                     {
                         "class": PreferredProductCategory,
                         "dimensions": ["product_category_preference"],
-                        "group_by": [
-                            "country",
-                            "age_group",
-                            "device_type",
-                        ],
+                        "group_by": _columns_without(
+                            "product_category_preference",
+                        ),
                     },
                     {
                         "class": PreferredPaymentMethod,
                         "dimensions": ["preferred_payment_method"],
-                        "group_by": [
-                            "country",
-                            "age_group",
-                            "annual_income_group",
-                            "device_type",
-                            "cart_abandonment_rate_group",
-                        ],
+                        "group_by": _columns_without(
+                            "preferred_payment_method",
+                        ),
                     },
                 ]
             ),
