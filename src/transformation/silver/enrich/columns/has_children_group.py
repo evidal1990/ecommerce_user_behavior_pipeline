@@ -14,4 +14,8 @@ class HasChildrenGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
-        return super().aggregate(df=df, column=self.column)
+        labels = [
+            "Com Filhos",
+            "Sem Filhos",
+        ]
+        return super().aggregate(df=df, column=self.column, labels=labels)  # pyright: ignore[reportReturnType]

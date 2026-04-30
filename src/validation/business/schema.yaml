@@ -135,52 +135,71 @@ columns:
     not_null: True
     required: True
     values: [
-      "Early Adopters",
-      "Early Career Professionals",
-      "Professional Consolidation",
-      "High Financial Stability",
-      "Pre-Retirement",
-      "Low Digital Adoption",
+      "Alta Adoção Digital",
+      "Início de Carreira",
+      "Consolidamento de Carreira",
+      "Estabilidade Financeira",
+      "Próximas da Aposentadoria",
+      "com Baixa Adoção Digital",
+    ]
+  annual_income_group:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "E (Classe Baixa)",
+      "D (Classe Média Baixa)",
+      "C (Classe Média)",
+      "B (Classe Média Alta)",
+      "A (Classe Alta)",
+    ]
+  has_children_group:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Sem Filhos",
+      "Com Filhos",
     ]
   household_size_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Very Small Household",
-      "Small Household",
-      "Medium Household",
-      "Large Household",
-      "Very Large Household",
+      "Família Muito Pequena",
+      "Família Pequena",
+      "Família Média",
+      "Família Grande",
+      "Família Muito Grande",
     ]
   brand_loyalty_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Detractors",
-      "Neutral",
-      "Promoters",
+      "Detratores",
+      "Neutros",
+      "Promotores",
     ]
   impulse_buying_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Highly Deliberate",
-      "Considered Buyer",
-      "Balanced Buyer",
-      "Impulse-Prone",
-      "Highly Impulsive",
+      "Altamente Ponderados",
+      "Compradores Criteriosos",
+      "Compradores Equilibrados",
+      "Compradores Impulsivos",
+      "Compradores Altamente Impulsivos",
     ]
   social_media_influence_score_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Independent",
-      "Influence-Aware",
-      "Highly Influenced",
+      "Não Influenciados",
+      "Influenciados",
+      "Altamente Influenciados",
     ]
   exercise_frequency_per_week_group:
     dtype: String
@@ -197,113 +216,119 @@ columns:
     not_null: True
     required: True
     values: [
-      "Financially Unconcerned",
-      "Financially Comfortable",
-      "Financially Aware",
-      "Financially Stressed",
-      "Financially Overwhelmed",
+      "Financeiramente Despreocupados",
+      "Financeiramente Confortáveis",
+      "Financeiramente Conscientes",
+      "Financeiramente Estressados",
     ]
   overall_stress_level_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Very Relaxed",
-      "Relaxed",
-      "Balanced",
-      "Stressed",
-      "Highly Stressed",
+      "Muito Relaxados",
+      "Relaxados",
+      "Equilibrados",
+      "Estressados",
+      "Muito Estressados",
     ]
   physical_activity_level_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Lightly Activity",
-      "Moderate Activity",
-      "Intense Activity",
-      "Very Intense Activity",
+      "Atividades Leves",
+      "Atividades Moderadas",
+      "Atividades Intensas",
+      "Atividades Muito Intensas",
     ]
   referral_count_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Rare Referrer",
-      "Occasional Referrer",
-      "Active Referrer",
-      "Advocate",
+      "Raramente Indicadores",
+      "Ocasionalmente Indicam",
+      "Frequentemente Indicam",
+      "Defensores da Marca",
     ]
   impulse_purchases_per_month_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Non-impulsive",
-      "Occasional Impulse Buyer",
-      "Moderate Impulse Buyer",
-      "Frequent Impulse Buyer",
+      "Não Impulsivos",
+      "Compradores por Impulso Ocasional",
+      "Compradores por Impulso Moderado",
+      "Compradores por Impulso Frequente",
     ]
   browse_to_buy_ratio_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Heavy Browser",
-      "Casual Browser",
-      "Considering Buyer",
-      "Intentional Buyer",
-      "Decisive Buyer",
+      "Navegam Muito Frequentemente",
+      "Navegam Casualmente",
+      "Consideram Comprar",
+      "Compram Intencionalmente",
+      "Compram Decisivamente",
     ]
   return_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Rare Returner",
-      "Occasional Returner",
-      "Frequent Returner",
-      "Heavy Returner",
+      "Retornam Raramente",
+      "Retornam Ocasionalmente",
+      "Retornam Frequentemente",
+      "Retornam Muitas Vezes",
     ]
   purchase_conversion_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Rare Buyer",
-      "Occasional Buyer",
-      "Considered Buyer",
-      "Frequent Buyer",
-      "Power Buyer",
+      "Compradores Raros",
+      "Compradores Ocasionais",
+      "Compradores em Potencial",
+      "Compradores Frequentes",
+    ]
+  premium_subscription_group:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Plano Premium",
+      "Plano Gratuito",
     ]
   app_usage_frequency_per_week_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Light User",
-      "Regular User",
-      "Heavy User",
+      "Pouco Ativo",
+      "Moderadamente Ativo",
+      "Muito Ativo",
     ]
   notification_response_rate_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Rarely Responsive",
-      "Occasionally Responsive",
-      "Responsive",
-      "Highly Responsive",
+      "Raramente Responsivos",
+      "Ocasionalmente Responsivos",
+      "Responsivos",
+      "Muito Responsivos",
     ]
   social_sharing_frequency_per_year_group:
     dtype: String
     not_null: True
     required: True
     values: [
-      "Rare Sharer",
-      "Occasional Sharer",
-      "Frequent Sharer",
-      "Heavy Sharer",
+      "Compartilham Raramente",
+      "Compartilham Ocasionalmente",
+      "Compartilham Frequentemente",
+      "Compartilham Muitas Vezes",
     ]
   cart_abandonment_rate_group:
     dtype: String
@@ -320,8 +345,8 @@ columns:
     not_null: True
     required: True
     values: [
-      "Rare Reviewer",
-      "Occasional Contributor",
-      "Active Contributor",
-      "Power Contributor",
+      "Contribuidores Raros",
+      "Contribuidores Ocasionais",
+      "Contribuidores Frequentes",
+      "Contribuidores Poderosos",
     ]

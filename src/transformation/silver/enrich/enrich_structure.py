@@ -1,7 +1,6 @@
 import polars as pl
 from abc import ABC, abstractmethod
 
-
 class EnrichStructure(ABC):
 
     @abstractmethod
@@ -19,11 +18,11 @@ class EnrichStructure(ABC):
         labels: list[str] = [],
     ) -> dict:
         if df[column].dtype == pl.Boolean:
-            return df.with_columns(
+            return df.with_columns( 
                 pl.when(pl.col(column))
-                .then(pl.lit("Sim").cast(pl.Utf8))
-                .otherwise(pl.lit("Não").cast(pl.Utf8))
-                .alias(f"{column}_group")
+                .then(labels[0].cast(pl.Utf8))
+                .otherwise(labels[1].cast(pl.Utf8))
+                .alias(f"{column}_group")  # pyright: ignore[reportReturnType]
             )
 
         x_pieces = len(labels)
@@ -33,4 +32,4 @@ class EnrichStructure(ABC):
             .alias(f"{column}_group")
         )
         range = pl.col(column).qcut(quantiles=x_pieces).alias(f"{column}_range")
-        return df.with_columns([group, range])
+        return df.with_columns([group, range])  # pyright: ignore[reportReturnType]

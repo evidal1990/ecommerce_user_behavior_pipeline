@@ -18,6 +18,6 @@ class ImpulsePurchasesPerMonthGroup(EnrichStructure):
             "Não Impulsivos",
             "Compradores por Impulso Ocasional",
             "Compradores por Impulso Moderado",
-            "Compradores por Impulso Frequentemente",
+            "Compradores por Impulso Frequente",
         ]
         return super().aggregate(df=df, column=self.column, labels=labels)

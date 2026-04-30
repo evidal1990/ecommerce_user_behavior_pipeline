@@ -14,4 +14,8 @@ class PremiumSubscriptionGroup(EnrichStructure):
         self,
         df,
     ) -> pl.DataFrame:
-        return super().aggregate(df=df, column=self.column)
+        labels = [
+            "Plano Premium",
+            "Plano Gratuito",
+        ]
+        return super().aggregate(df=df, column=self.column, labels=labels)  # pyright: ignore[reportReturnType]

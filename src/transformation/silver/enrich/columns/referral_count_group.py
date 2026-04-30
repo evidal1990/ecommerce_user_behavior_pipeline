@@ -18,6 +18,6 @@ class ReferralCountGroup(EnrichStructure):
             "Raramente Indicadores",
             "Ocasionalmente Indicam",
             "Frequentemente Indicam",
-            "Defensores",
+            "Defensores da Marca",
         ]
         return super().aggregate(df=df, column=self.column, labels=labels)
