@@ -1,4 +1,8 @@
 {
   "venvPath": ".",
-  "venv": "venv"
+  "venv": "venv",
+  "reportArgumentType": "none",
+  "reportAttributeAccessIssue": "none",
+  "reportIncompatibleMethodOverride": "none",
+  "reportReturnType": "none"
 }

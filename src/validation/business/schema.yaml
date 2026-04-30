@@ -349,4 +349,93 @@ columns:
       "Contribuidores Ocasionais",
       "Contribuidores Frequentes",
       "Contribuidores Poderosos",
-    ]
+    ],
+  gender:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Masculino",
+      "Feminino",
+      "Não Binário",
+      "Outro",
+    ],
+  neighborhood:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Urbano",
+      "Rural",
+      "Suburbano",
+    ],
+  education_level:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Ensino Médio",
+      "Bacharel",
+      "Mestre",
+      "Doutor",
+      "Associado",
+    ],
+  shopping_time_of_day:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Manhã",
+      "Tarde",
+      "Noite",
+      "Madrugada",
+    ],
+  employment_status:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Empregado",
+      "Desempregado",
+      "Aposentado",
+      "Estudante",
+      "Autônomo",
+    ],
+  relationship_status:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Solteiro(a)",
+      "Em um relacionamento",
+      "Casado(a)",
+      "Divorciado(a)",
+      "Viúvo(a)",
+    ],
+  preferred_payment_method:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Cartão de Crédito",
+      "Cartão de Débito",
+      "Apple Pay",
+      "Google Pay",
+      "PayPal",
+      "Transferência Bancária",
+    ],
+  product_category_preference:
+    dtype: String
+    not_null: True
+    required: True
+    values: [
+      "Alimentos",
+      "Beleza",
+      "Brinquedos",
+      "Casa e Saúde",
+      "Casa e Cozinha", 
+      "Esportes",
+      "Eletrônicos",
+      "Moda",
+      "Livros",
+    ],

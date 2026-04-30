@@ -5,6 +5,8 @@ from consts.ingestion_status import IngestionStatus
 from .ingest_interface import IngestInterface
 
 
+SAMPLE_SIZE = 800_000
+
 class CsvIngestion(IngestInterface):
     def __init__(self, settings: dict, origin: str) -> None:
         """
@@ -35,6 +37,7 @@ class CsvIngestion(IngestInterface):
             None
         """
         self.df = pl.read_csv(self.origin)
+        self.df = self.df.sample(n=SAMPLE_SIZE, shuffle=True)
         df_is_empty = self.df.is_empty()
         if self.df.is_empty():
             status = IngestionStatus.FAIL
