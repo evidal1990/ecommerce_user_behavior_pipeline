@@ -5,7 +5,7 @@ from consts.ingestion_status import IngestionStatus
 from .ingest_interface import IngestInterface
 
 
-SAMPLE_SIZE = 800_000
+SAMPLE_SIZE = 500_000
 
 class CsvIngestion(IngestInterface):
     def __init__(self, settings: dict, origin: str) -> None:

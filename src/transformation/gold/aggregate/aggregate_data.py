@@ -1,31 +1,35 @@
 import polars as pl
 
 # Count
-from .count.count_total_users import CountTotalUsers
-from .count.count_product_views_per_day import CountProductViewsPerDay
-from .count.count_last_purchase_date import CountLastPurchaseDate
+from src.transformation.gold.aggregate.count import (
+    CountTotalUsers,
+    CountProductViewsPerDay,
+    CountLastPurchaseDate,
+)
 
 # Sum
-from .sum.sum_premium_users import SumPremiumUsers
-from .sum.sum_monthly_spend import SumMonthlySpend
-from .sum.sum_has_children import SumHasChildren
-from .sum.sum_checkout_abandonments_per_month import SumCheckoutAbandonmentsPerMonth
-from .sum.sum_daily_session_time_minutes import SumDailySessionTimeMinutes
+from src.transformation.gold.aggregate.sum import (
+    SumDailySessionTimeMinutes,
+    SumPremiumUsers,
+    SumMonthlySpend,
+    SumHasChildren,
+    SumCheckoutAbandonmentsPerMonth,
+)
 
 # Avg
-from .avg.avg_daily_session_time_minutes import AvgDailySessionTimeMinutes
-from .avg.avg_app_usage_frequency_per_week import AvgAppUsageFrequencyPerWeek
-from .avg.avg_app_usage_frequency_per_week_scaled import (
+from src.transformation.gold.aggregate.avg import (
+    AvgDailySessionTimeMinutes,
+    AvgAppUsageFrequencyPerWeek,
     AvgAppUsageFrequencyPerWeekScaled,
+    AvgProductViewsPerDay,
+    AvgProductViewsPerDayScaled,
+    AvgBrandLoyaltyScore,
+    AvgCouponUsageFrequency,
+    AvgReferralCount,
+    AvgPurchaseConversionRate,
+    AvgCartAbandonmentRate,
+    AvgNotificationResponseRateScaled,
 )
-from .avg.avg_product_views_per_day import AvgProductViewsPerDay
-from .avg.avg_product_views_per_day_scaled import AvgProductViewsPerDayScaled
-from .avg.avg_brand_loyalty_score import AvgBrandLoyaltyScore
-from .avg.avg_coupon_usage_frequency import AvgCouponUsageFrequency
-from .avg.avg_referral_count import AvgReferralCount
-from .avg.avg_purchase_conversion_rate import AvgPurchaseConversionRate
-from .avg.avg_cart_abandonment_rate import AvgCartAbandonmentRate
-from .avg.avg_notification_response_rate_scaled import AvgNotificationResponseRateScaled
 
 
 class AggregateData:
@@ -62,6 +66,8 @@ class AggregateData:
             "has_children_group",
             "premium_subscription_group",
             "product_category_preference",
+            "relationship_status",
+            "shopping_time_of_day",
             "social_sharing_frequency_per_year_group",
             "last_purchase_date",
         ]
