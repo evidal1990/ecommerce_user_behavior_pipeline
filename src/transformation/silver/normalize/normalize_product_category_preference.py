@@ -7,10 +7,13 @@ class NormalizeProductCategoryPreference(NormalizeStructure):
         self,
         column: str,
     ) -> None:
-        self.column = column
+        self._col = column
 
     def name(self) -> str:
         return "NORMALIZE_PRODUCT_CATEGORY_PREFERENCE"
+
+    def column(self) -> str:
+        return self._col
 
     def execute(
         self,
@@ -29,8 +32,8 @@ class NormalizeProductCategoryPreference(NormalizeStructure):
         }
 
         return df.with_columns(
-            pl.col(self.column)
+            pl.col(self._col)
             .replace(mapping)
             .fill_null("Desconhecido")
-            .alias(self.column)
+            .alias(self._col)
         )

@@ -19,30 +19,7 @@ _IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 DEFAULT_GOLD_TABLES: dict[str, str] = {
     "aggregations": "aggregations",
-    "kpis_descriptive": "kpis",
-    "kpis_behavioral": "kpis",
-    "kpis_operational": "kpis",
-    "kpis_strategical": "kpis",
 }
-
-# Colunas do ``ON CONFLICT (...)`` têm de coincidir *exatamente* com um PRIMARY KEY
-# ou UNIQUE *não parcial* na tabela (ordem irrelevante).
-KPI_CONFLICT_COLUMNS: tuple[str, ...] = (
-    "kpi_name",
-    "dimension_name",
-    "dimension_value",
-    "reference_date",
-    "dimensions",
-)
-
-# Usa isto apenas se o teu UNIQUE/PK na base **não** incluir ``dimensions``
-# (atenção: KPIs como churn/NPS precisam de ``dimensions`` na chave).
-KPI_CONFLICT_COLUMNS_WITHOUT_DIMENSIONS: tuple[str, ...] = (
-    "kpi_name",
-    "dimension_name",
-    "dimension_value",
-    "reference_date",
-)
 
 
 def _validate_identifier(name: str) -> str:
@@ -118,8 +95,8 @@ class LoadGold:
       - Tabelas já criadas no Supabase com colunas alinhadas aos cabeçalhos dos CSV.
       - Modo por defeito na pipeline: ``truncate_first=True`` e ``upsert=False`` (limpa
         cada tabela de destino uma vez e reinsere; não exige UNIQUE para ``ON CONFLICT``).
-      - Com ``upsert=True``, é necessário UNIQUE/PK alinhado a ``KPI_CONFLICT_COLUMNS``
-        ou o nome da constraint via ``conflict_constraint`` / env
+      - Com ``upsert=True``, é necessário UNIQUE/PK compatível com as colunas passadas
+        em ``conflict_columns`` ou o nome da constraint via ``conflict_constraint`` / env
         ``GOLD_KPIS_ON_CONFLICT_CONSTRAINT``.
 
     Exemplo de UNIQUE se quiseres upsert incremental sem truncar::
@@ -185,7 +162,7 @@ class LoadGold:
           env ``GOLD_KPIS_ON_CONFLICT_CONSTRAINT``) estiver definido, usa
           ``ON CONFLICT ON CONSTRAINT <nome>``.
         - Caso contrário usa ``ON CONFLICT (colunas)`` com ``conflict_columns``
-          (por defeito :data:`KPI_CONFLICT_COLUMNS`).
+          explicitamente informado.
 
         Por defeito ``upsert=False``: ``INSERT`` simples (na pipeline usa
         ``load_all(..., truncate_first=True)`` para substituir o snapshot completo).
@@ -217,11 +194,12 @@ class LoadGold:
         elif constr:
             conflict = None
         else:
-            conflict = (
-                tuple(conflict_columns)
-                if conflict_columns is not None
-                else KPI_CONFLICT_COLUMNS
-            )
+            if conflict_columns is None:
+                raise ValueError(
+                    "Com upsert=True sem conflict_constraint, "
+                    "é obrigatório informar conflict_columns."
+                )
+            conflict = tuple(conflict_columns)
 
         inserted = 0
         reader = pl.read_csv_batched(

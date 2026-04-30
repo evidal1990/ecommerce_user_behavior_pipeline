@@ -349,7 +349,7 @@ columns:
       "Contribuidores Ocasionais",
       "Contribuidores Frequentes",
       "Contribuidores Poderosos",
-    ],
+    ]
   gender:
     dtype: String
     not_null: True
@@ -359,8 +359,8 @@ columns:
       "Feminino",
       "Não Binário",
       "Outro",
-    ],
-  neighborhood:
+    ]
+  urban_rural:
     dtype: String
     not_null: True
     required: True
@@ -368,7 +368,7 @@ columns:
       "Urbano",
       "Rural",
       "Suburbano",
-    ],
+    ]
   education_level:
     dtype: String
     not_null: True
@@ -379,7 +379,7 @@ columns:
       "Mestre",
       "Doutor",
       "Associado",
-    ],
+    ]
   shopping_time_of_day:
     dtype: String
     not_null: True
@@ -389,7 +389,7 @@ columns:
       "Tarde",
       "Noite",
       "Madrugada",
-    ],
+    ]
   employment_status:
     dtype: String
     not_null: True
@@ -400,7 +400,7 @@ columns:
       "Aposentado",
       "Estudante",
       "Autônomo",
-    ],
+    ]
   relationship_status:
     dtype: String
     not_null: True
@@ -411,7 +411,7 @@ columns:
       "Casado(a)",
       "Divorciado(a)",
       "Viúvo(a)",
-    ],
+    ]
   preferred_payment_method:
     dtype: String
     not_null: True
@@ -423,7 +423,7 @@ columns:
       "Google Pay",
       "PayPal",
       "Transferência Bancária",
-    ],
+    ]
   product_category_preference:
     dtype: String
     not_null: True
@@ -438,4 +438,4 @@ columns:
       "Eletrônicos",
       "Moda",
       "Livros",
-    ],
+    ]

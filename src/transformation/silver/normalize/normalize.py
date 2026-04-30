@@ -24,13 +24,13 @@ class Normalize:
             else:
                 status = ActionStatus.PASS
                 log_lvl = logging.info
-            column = action.scaled_column()
+            col = action.column()
             message = (
                 f"[NORMALIZE_DATA_{action.name()}]\n"
                 f"status={status}\n"
-                f"column={column}\n"
-                f"min={df[column].min()}\n"
-                f"max={df[column].max()}\n"
+                f"column={col}\n"
+                f"min={df[col].min()}\n"
+                f"max={df[col].max()}\n"
             )
             log_lvl(message)
         return df
