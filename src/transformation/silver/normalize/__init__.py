@@ -19,6 +19,10 @@ from src.transformation.silver.normalize.normalize_education_level import (
 from src.transformation.silver.normalize.normalize_shopping_time_of_day import (
     NormalizeShoppingTimeOfDay,
 )
+from src.transformation.silver.normalize.normalize_neighborhood import (
+    NormalizeNeighborhood,
+)
+
 
 __all__ = [
     "Normalize",
@@ -30,4 +34,5 @@ __all__ = [
     "NormalizeEmploymentStatus",
     "NormalizeEducationLevel",
     "NormalizeShoppingTimeOfDay",
+    "NormalizeNeighborhood",
 ]

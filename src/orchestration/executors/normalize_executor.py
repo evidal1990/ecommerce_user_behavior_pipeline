@@ -9,6 +9,7 @@ from src.transformation.silver.normalize import (
     NormalizeEmploymentStatus,
     NormalizeEducationLevel,
     NormalizeShoppingTimeOfDay,
+    NormalizeNeighborhood,
 )
 
 
@@ -55,5 +56,6 @@ class NormalizeExecutor:
                 NormalizeEmploymentStatus(column="employment_status"),
                 NormalizeEducationLevel(column="education_level"),
                 NormalizeShoppingTimeOfDay(column="shopping_time_of_day"),
+                NormalizeNeighborhood(column="urban_rural"),
             ]
         ).execute(df=df)

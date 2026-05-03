@@ -21,7 +21,7 @@ class NormalizeRelationshipStatus(NormalizeStructure):
     ) -> pl.DataFrame:
         mapping = {
             "Single": "Solteiro(a)",
-            "In a relationship": "Em um relacionamento",
+            "In a relationship": "Em um Relacionamento",
             "Married": "Casado(a)",
             "Divorced": "Divorciado(a)",
             "Widowed": "Viúvo(a)",

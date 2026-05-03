@@ -135,12 +135,12 @@ columns:
     not_null: True
     required: True
     values: [
-      "Alta Adoção Digital",
+      "Jovens Estudantes",
       "Início de Carreira",
-      "Consolidamento de Carreira",
+      "Consolidação de Carreira",
       "Estabilidade Financeira",
       "Próximas da Aposentadoria",
-      "com Baixa Adoção Digital",
+      "Aposentados",
     ]
   annual_income_group:
     dtype: String
@@ -166,11 +166,9 @@ columns:
     not_null: True
     required: True
     values: [
-      "Família Muito Pequena",
-      "Família Pequena",
-      "Família Média",
-      "Família Grande",
-      "Família Muito Grande",
+      "Mora Sozinho ou Com Poucas Pessoas",
+      "Mora com Algumas Pessoas",
+      "Mora com Muitas Pessoas",
     ]
   brand_loyalty_score_group:
     dtype: String
@@ -407,7 +405,7 @@ columns:
     required: True
     values: [
       "Solteiro(a)",
-      "Em um relacionamento",
+      "Em um Relacionamento",
       "Casado(a)",
       "Divorciado(a)",
       "Viúvo(a)",

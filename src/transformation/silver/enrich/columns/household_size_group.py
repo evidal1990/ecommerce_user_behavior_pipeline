@@ -15,10 +15,8 @@ class HouseholdSizeGroup(EnrichStructure):
         df,
     ) -> pl.DataFrame:
         labels = [
-            "Família Muito Pequena",
-            "Família Pequena",
-            "Família Média",
-            "Família Grande",
-            "Família Muito Grande",
+            "Mora Sozinho ou Com Poucas Pessoas",
+            "Mora com Algumas Pessoas",
+            "Mora com Muitas Pessoas",
         ]
         return super().aggregate(df=df, column=self.column, labels=labels)
